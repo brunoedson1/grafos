@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <vector>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ class Grafo{
         No *primeiro_no;
         No *ultimo_no;
         bool digrafo;
-        std::vector<No*> lista_nos;
+        vector<No*> lista_nos;
 
     public:
         Grafo(bool digrafo);
@@ -46,8 +47,6 @@ class Grafo{
 
         void vizinhoAberta(int id);
         void vizinhoFechada(int id);
-
-        void fechoDir(int id);
 };
 
 #endif // GRAFO_H_INCLUDED
