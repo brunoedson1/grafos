@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <queue>
 #include <limits>
+#include <string>
 #include "Grafo.h"
 
 using namespace std;
@@ -13,6 +14,10 @@ Grafo::Grafo(bool digrafo){
     this->digrafo = digrafo;
     this->primeiro_no = nullptr;
     this->ultimo_no = nullptr;
+}
+
+Grafo::~Grafo(){
+
 }
 
 void Grafo::insereNoInicio(int id){
@@ -434,6 +439,16 @@ vector<int> Grafo::floydWarshall(int id_calda, int id_cabeca){
     return caminho;
 }
 
+void Grafo::fechoDir(int id){
+    No *no = encontrarNo(id);
+    
+
+
+
+
+}
+
+
 
 void Grafo::vizinhoAberta(int id){
     No *no = encontrarNo(id);
@@ -452,7 +467,7 @@ void Grafo::vizinhoAberta(int id){
     }
     cout << endl;
 
-    return;
+    
 }
 
 void Grafo::vizinhoFechada(int id){
@@ -475,6 +490,4 @@ void Grafo::vizinhoFechada(int id){
         cout << vizinhoFechada[i] << " ";
 
     cout << endl;
-
-    return;
 }

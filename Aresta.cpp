@@ -10,6 +10,12 @@ Aresta::Aresta(Aresta *proxima_aresta, int id_cabeca, int id_cauda, float peso){
     this->peso = peso;
 }
 
+Aresta::Aresta(int id_cabeca, int id_cauda, float peso){
+    this->id_cabeca = id_cabeca;
+    this->id_cauda = id_cauda;
+    this->peso = peso;
+}
+
 Aresta::~Aresta(){
     if(this->proxima_aresta != nullptr){
         delete this->proxima_aresta;

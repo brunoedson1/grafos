@@ -22,7 +22,7 @@ Grafo *ler(ifstream &entrada){
     }
     grafo->imprime();
 
-    return grafo;
+    //return grafo;
 }
 
 int main(int argc, char const *argv[]){
@@ -31,9 +31,9 @@ int main(int argc, char const *argv[]){
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo);
 
-    if (argc != 6){
+    if (argc != 3){
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
-        return 1;
+        return 5;
     }
 
     entrada.open(argv[1], ios::in);

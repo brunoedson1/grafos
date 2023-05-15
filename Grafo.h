@@ -1,6 +1,9 @@
 #ifndef GRAFO_H_INCLUDED
 #define GRAFO_H_INCLUDED
 #include "No.h"
+#include <stdio.h>
+#include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -43,6 +46,8 @@ class Grafo{
 
         void vizinhoAberta(int id);
         void vizinhoFechada(int id);
+
+        void fechoDir(int id);
 };
 
 #endif // GRAFO_H_INCLUDED
