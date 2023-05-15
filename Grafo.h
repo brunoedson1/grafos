@@ -1,6 +1,7 @@
 #ifndef GRAFO_H_INCLUDED
 #define GRAFO_H_INCLUDED
 #include "No.h"
+#include <vector>
 
 using namespace std;
 
@@ -9,7 +10,7 @@ class Grafo{
         No *primeiro_no;
         No *ultimo_no;
         bool digrafo;
-        std::vector<No*> lista_nos;
+        vector<No*> lista_nos;
 
     public:
         Grafo(bool digrafo);
@@ -41,8 +42,8 @@ class Grafo{
         vector<int> dijkstra(int id_calda, int id_cabeca);
         vector<int> floydWarshall(int id_calda, int id_cabeca);
 
-        void vizinhoAberta(int id);
-        void vizinhoFechada(int id);
+        void vizinhancaAberta(int id);
+        void vizinhancaFechada(int id);
 };
 
 #endif // GRAFO_H_INCLUDED

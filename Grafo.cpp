@@ -15,6 +15,8 @@ Grafo::Grafo(bool digrafo){
     this->ultimo_no = nullptr;
 }
 
+Grafo::~Grafo(){};
+
 void Grafo::insereNoInicio(int id){
     No *no = new No(id); 
     no->setProxNo(this->primeiro_no);
@@ -311,7 +313,7 @@ No* Grafo::encontrarNo(int id) {
 }
 
 int* Grafo::seqDeGraus(){
-    if(this == nullptr || this->primeiro_no == nullptr || getOrdem() <= 0) {
+    if(this->primeiro_no == nullptr || getOrdem() <= 0) {
         cout << "Grafo Vazio!" << endl;
         return nullptr;
     }
@@ -435,44 +437,44 @@ vector<int> Grafo::floydWarshall(int id_calda, int id_cabeca){
 }
 
 
-void Grafo::vizinhoAberta(int id){
+void Grafo::vizinhancaAberta(int id){
     No *no = encontrarNo(id);
     Aresta *aresta = no->getPrimeiraAresta();
-    vector< int > vizinhoAberta;
+    vector< int > vizinhancaAberta;
 
-    for(aresta; aresta != NULL; aresta = aresta->getProxAresta()){
+    for(; aresta != nullptr; aresta = aresta->getProxAresta()){
         if(aresta->getIdCauda() == id)
-            vizinhoAberta.push_back(aresta->getIdCabeca());
+            vizinhancaAberta.push_back(aresta->getIdCabeca());
         else
-            vizinhoAberta.push_back(aresta->getIdCauda());
+            vizinhancaAberta.push_back(aresta->getIdCauda());
     }
     cout << "A vizinhança aberta é: " << endl; 
-    for (int i = 0; i < vizinhoAberta.size(); i++){
-        cout << vizinhoAberta[i] << " ";
+    for (int i = 0; i < static_cast<int>(vizinhancaAberta.size()); i++){
+        cout << vizinhancaAberta[i] << " ";
     }
     cout << endl;
 
     return;
 }
 
-void Grafo::vizinhoFechada(int id){
+void Grafo::vizinhancaFechada(int id){
     No *no = encontrarNo(id);
     Aresta *aresta = no->getPrimeiraAresta();
-    vector<int> vizinhoFechada;
+    vector<int> vizinhancaFechada;
 
-    vizinhoFechada.push_back(id);
+    vizinhancaFechada.push_back(id);
 
-    for(aresta; aresta != NULL; aresta = aresta->getProxAresta()){
+    for(; aresta != nullptr; aresta = aresta->getProxAresta()){
         if(aresta->getIdCauda() == id)
-            vizinhoFechada.push_back(aresta->getIdCabeca());
+            vizinhancaFechada.push_back(aresta->getIdCabeca());
         else
-            vizinhoFechada.push_back(aresta->getIdCauda());
+            vizinhancaFechada.push_back(aresta->getIdCauda());
         
     }
     
     cout << "A vizinhança fechada é: " << endl; 
-    for (int i = 0; i < vizinhoFechada.size(); i++) 
-        cout << vizinhoFechada[i] << " ";
+    for (int i = 0; i < static_cast<int>(vizinhancaFechada.size()); i++)
+        cout << vizinhancaFechada[i] << " ";
 
     cout << endl;
 
