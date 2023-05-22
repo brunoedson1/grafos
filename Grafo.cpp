@@ -154,7 +154,7 @@ void Grafo::removeAresta(int id_cauda, int id_cabeca){
     }
     if(!this->digrafo){
         remove = cabeca->removeAresta(id_cabeca, id_cauda);
-        if( remove )
+        if(remove)
             cabeca->setGrau(cabeca->getGrauNo() - 1);
     }
 }

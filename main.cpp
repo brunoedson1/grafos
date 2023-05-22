@@ -3,11 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include "Grafo.h"
-#include "Grafo.cpp"
 #include "Aresta.h"
-#include "Aresta.cpp"
 #include "No.h"
-#include "No.cpp"
 
 using namespace std;
 
