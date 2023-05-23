@@ -47,11 +47,26 @@ int main(int argc, char const *argv[]){
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
     
     
+    cout << "Removendo no 2" << endl;
+    grafo->removeNo(2);
+    grafo->imprime();
+
     cout << "Removendo a aresta 1 - 2" << endl;
     grafo->removeAresta(1,2);
     cout << "Removendo a aresta 2 - 1" << endl;
     grafo->removeAresta(2,1);
     grafo->imprime();
+
+
+    cout << "É nulo: " << boolalpha << grafo->nulo() << endl;
+
+    cout << "É trivial: " << boolalpha << grafo->trivial() << endl;
+
+    cout << "É multigrafo: " << boolalpha << grafo->ehMultiGrafo() << endl;
+
+    cout << "É bipartido: " << boolalpha << grafo->ehBipartido() << endl;
+
+    cout << "É grafo completo: " << boolalpha << grafo->grafoCompleto() << endl;
 
     entrada.close();
     saida.close();
