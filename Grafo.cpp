@@ -90,7 +90,7 @@ bool Grafo::getKRegular(int k){
     if(no->getGrauNo() != k)
         return false;
     else{
-        while (no != nullptr){
+        while(no != nullptr){
             if(no->getGrauNo() != k)
                 return false;
 
@@ -104,7 +104,7 @@ int Grafo::getGrauGrafo(){
     No *no = this->primeiro_no;
     int grau = no->getGrauNo();
 
-    while (no != nullptr)
+    while(no != nullptr)
         if(no->getGrauNo() > grau){ 
             grau = no->getGrauNo();
 
@@ -125,16 +125,33 @@ int Grafo::getOrdem(){
 }
 
 void Grafo::removeNo(int id){
-    No *no = this->primeiro_no;
-    while (no != nullptr){
-        if(id == no->getId()){
-            id = -1;
-            break;
-        }
-        no = no->getProxNo();
+    No *no = encontrarNo(id);
+    if(no == nullptr) {
+        cout << "Nó não encontrado no grafo" << endl;
+        return;
     }
 
+    // Remover as arestas relacionadas ao nó a ser removido
+    No *no_atual = primeiro_no;
+    while(no_atual != nullptr) {
+        no_atual->removeAresta(id, no->getId());
+        no_atual = no_atual->getProxNo();
+    }
+
+    if(no == primeiro_no)
+        primeiro_no = no->getProxNo();
+    else{
+        No *no_anterior = primeiro_no;
+        while(no_anterior->getProxNo() != no)
+            no_anterior = no_anterior->getProxNo();
+        
+        no_anterior->setProxNo(no->getProxNo());
+    }
+
+    delete no;
+    cout << "Nó removido com sucesso." << endl;
 }
+
 
 void Grafo::removeAresta(int id_cauda, int id_cabeca){
     No *cauda = encontrarNo(id_cauda);
@@ -171,7 +188,7 @@ void Grafo::imprime(){
         cout << "(" << no->getId() << ")" << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         cout << " ";
-        while (aresta != nullptr ){
+        while(aresta != nullptr ){
             cout << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
             aresta = aresta->getProxAresta();
         }
@@ -301,7 +318,7 @@ bool Grafo::ehBipartido() {
     return true;
 }
 
-No* Grafo::encontrarNo(int id) {
+No *Grafo::encontrarNo(int id) {
     No *no_atual = this->primeiro_no;
     while(no_atual != nullptr) {
         if(no_atual->getId() == id)
