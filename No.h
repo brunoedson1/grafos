@@ -10,9 +10,10 @@ class No{
         Aresta *primeira_aresta;
         No *proximo_no;
         int id;
-        int grau;
+        int grau; //
         int grau_entrada;
         int grau_saida;
+        int peso; /// implementar
 
     public:
         No();
@@ -32,8 +33,8 @@ class No{
         void setEntrada(int grau);
         void setSaida(int grau);
 
-        void insereAresta(int id_cauda, int id_cabeca, float peso);
-        Aresta *buscaAresta(int id_cauda, int id_cabeca);
+        void insereAresta(int id_cabeca, int peso_aresta);
+        // Aresta *buscaAresta(int id_cauda, int id_cabeca);
         bool removeAresta(int id_cauda, int id_cabeca);
 
 };

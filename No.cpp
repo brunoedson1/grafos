@@ -38,39 +38,34 @@ Aresta *No::getPrimeiraAresta(){
     return this->primeira_aresta;
 }
 
-void No::insereAresta(int id_cauda, int id_cabeca, float peso){
-    Aresta *nova_aresta = new Aresta(id_cauda, id_cabeca, peso);
-
-    if(this->primeira_aresta == nullptr)
-        this->primeira_aresta = nova_aresta;
-    else{
+void No::insereAresta(int id_cabeca, int peso_aresta){
+        Aresta *nova_aresta = new Aresta(id_cabeca, peso_aresta);
         Aresta *aux = this->primeira_aresta;
 
-        while (aux->getProxAresta() != nullptr)
-            aux = aux->getProxAresta();
-        
         aux->setProxAresta(nova_aresta);
-    }
+        this->primeira_aresta = nova_aresta;
+        nova_aresta->setProxAresta(aux->getProxAresta());
+    
 }
 
-Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
-    Aresta *Aresta = this->primeira_aresta;
+// Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
+//     Aresta *Aresta = this->primeira_aresta;
 
-    if(this->primeira_aresta == nullptr)
-        return nullptr;
+//     if(this->primeira_aresta == nullptr)
+//         return nullptr;
 
-    while(Aresta != nullptr){
-        if(Aresta->getIdCabeca() == id_cabeca && Aresta->getIdCauda() == id_cauda)
-            break;
+//     while(Aresta != nullptr){
+//         if(Aresta->getIdCabeca() == id_cabeca && Aresta->getIdCauda() == id_cauda)
+//             break;
         
-        Aresta = Aresta->getProxAresta();
-    }
+//         Aresta = Aresta->getProxAresta();
+//     }
 
-    if(Aresta == nullptr)
-        return nullptr;
+//     if(Aresta == nullptr)
+//         return nullptr;
 
-    return Aresta;
-}
+//     return Aresta;
+// }
 
 bool No::removeAresta(int id_cauda, int id_cabeca){
     Aresta *aresta = this->primeira_aresta;
@@ -82,7 +77,7 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
     }
 
     while(aresta != nullptr){
-        if(aresta->getIdCabeca() == id_cabeca && aresta->getIdCauda() == id_cauda)
+        if(aresta->getIdCabeca() == id_cabeca)
             break;
         
         aresta_anteriror = aresta;

@@ -62,7 +62,7 @@ int main(int argc, char const *argv[]){
 
     cout << "É trivial: " << boolalpha << grafo->trivial() << endl;
 
-    cout << "É multigrafo: " << boolalpha << grafo->ehMultiGrafo() << endl;
+    // cout << "É multigrafo: " << boolalpha << grafo->ehMultiGrafo() << endl;
 
     cout << "É bipartido: " << boolalpha << grafo->ehBipartido() << endl;
 

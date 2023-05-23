@@ -10,7 +10,11 @@ class Grafo{
         No *primeiro_no;
         No *ultimo_no;
         bool digrafo;
-        vector<No*> lista_nos;
+        bool ponderado_aresta;// implementar
+        bool ponderado_vertice;// implementar
+        int num_vertice; // implementar
+        int num_aresta;// implementar
+        vector<No*> lista_nos; 
 
     public:
         Grafo(bool digrafo);
@@ -32,15 +36,15 @@ class Grafo{
         void imprime(); 
         bool trivial(); 
         bool nulo();
-        bool ehMultiGrafo();
+        //bool ehMultiGrafo();
         bool grafoCompleto();
         bool ehBipartido();
 
         No *encontrarNo(int id);
         int *seqDeGraus();
 
-        vector<int> dijkstra(int id_calda, int id_cabeca);
-        vector<int> floydWarshall(int id_calda, int id_cabeca);
+        // vector<int> dijkstra(int id_calda, int id_cabeca);
+        // vector<int> floydWarshall(int id_calda, int id_cabeca);
 
         void vizinhancaAberta(int id);
         void vizinhancaFechada(int id);

@@ -43,23 +43,21 @@ void Grafo::insereAresta(int id_cauda, int id_cabeca, float peso){
 
     if(cauda == nullptr){
         this->insereNoFim(id_cauda);
-        cauda = this->ultimo_no;
     }
     if(cabeca == nullptr){
         this->insereNoFim(id_cabeca);
-        cabeca = this->ultimo_no;
     }
 
-    cauda->insereAresta(id_cauda, id_cabeca, peso);
-
-    if(!this->digrafo)
-        cabeca->insereAresta(id_cabeca, id_cauda, peso);
+    cauda->insereAresta(id_cabeca, peso);
 
     if(!this->getDigrafo()){
-        cabeca->setGrau(cabeca->getGrauNo() + 1);
+        cauda->insereAresta(id_cabeca, peso);
+        cabeca->insereAresta(id_cauda, peso);
         cauda->setGrau(cauda->getGrauNo() + 1);
+        cabeca->setGrau(cabeca->getGrauNo() + 1);
     }
     else{
+        cauda->insereAresta(id_cabeca, peso);
         cabeca->setEntrada(cabeca->getEntrada() + 1);
         cauda->setSaida(cauda->getSaida() + 1);
     }
@@ -133,10 +131,6 @@ void Grafo::removeNo(int id){
 
     // Remover as arestas relacionadas ao nó a ser removido
     No *no_atual = primeiro_no;
-    while(no_atual != nullptr) {
-        no_atual->removeAresta(id, no->getId());
-        no_atual = no_atual->getProxNo();
-    }
 
     if(no == primeiro_no)
         primeiro_no = no->getProxNo();
@@ -217,33 +211,33 @@ bool Grafo::nulo(){
     
 }
 
-bool Grafo::ehMultiGrafo() {
-    unordered_map<string, int> contador;
+// bool Grafo::ehMultiGrafo() {
+//     unordered_map<string, int> contador;
 
-    // percorre os nos do grafo
-    No *no_atual = this->primeiro_no;
-    while(no_atual != nullptr) {
-        Aresta *aresta_atual = no_atual->getPrimeiraAresta();
+//     // percorre os nos do grafo
+//     No *no_atual = this->primeiro_no;
+//     while(no_atual != nullptr) {
+//         Aresta *aresta_atual = no_atual->getPrimeiraAresta();
         
-        // percorre as arestas do no atual
-        while(aresta_atual != nullptr) {
-            string chave = to_string(aresta_atual->getIdCauda()) + "-" + to_string(aresta_atual->getIdCauda());
-            contador[chave]++;
+//         // percorre as arestas do no atual
+//         while(aresta_atual != nullptr) {
+//             string chave = to_string(aresta_atual->getIdCauda()) + "-" + to_string(aresta_atual->getIdCauda());
+//             contador[chave]++;
             
-            aresta_atual = aresta_atual->getProxAresta();
-        }
+//             aresta_atual = aresta_atual->getProxAresta();
+//         }
         
-        no_atual = no_atual->getProxNo();
-    }
+//         no_atual = no_atual->getProxNo();
+//     }
 
-    //verifica se tem aresta duplicada
-    for(const auto& par : contador) {
-        if(par.second > 1)
-            return true;
-    }
+//     //verifica se tem aresta duplicada
+//     for(const auto& par : contador) {
+//         if(par.second > 1)
+//             return true;
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
 bool Grafo::grafoCompleto() {
     No* no_atual = this->primeiro_no;
@@ -355,145 +349,145 @@ int* Grafo::seqDeGraus(){
     return sequencia;
 }
 
-vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca){
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    unordered_map<int, int> distancias; //armazena distancia minima
-    unordered_map<int, int> predecessores; //armazena predecessores dos nos
-    unordered_set<int> visitados; //armazena nos visitados
+// vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca){
+//     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+//     unordered_map<int, int> distancias; //armazena distancia minima
+//     unordered_map<int, int> predecessores; //armazena predecessores dos nos
+//     unordered_set<int> visitados; //armazena nos visitados
 
-    //inicialização das distâncias com infinito e predecessores como -1
-    for(No *no = primeiro_no; no != nullptr; no = no->getProxNo()){
-        int id = no->getId();
-        distancias[id] = numeric_limits<int>::max();
-        predecessores[id] = -1;
-    }
+//     //inicialização das distâncias com infinito e predecessores como -1
+//     for(No *no = primeiro_no; no != nullptr; no = no->getProxNo()){
+//         int id = no->getId();
+//         distancias[id] = numeric_limits<int>::max();
+//         predecessores[id] = -1;
+//     }
 
-    //define a distância da origem como 0 e adiciona na fila de prioridade
-    distancias[id_cauda] = 0;
-    pq.push(make_pair(0, id_cauda));
+//     //define a distância da origem como 0 e adiciona na fila de prioridade
+//     distancias[id_cauda] = 0;
+//     pq.push(make_pair(0, id_cauda));
 
-    while(!pq.empty()){
-        int no_atual = pq.top().second;
-        pq.pop();
+//     while(!pq.empty()){
+//         int no_atual = pq.top().second;
+//         pq.pop();
 
-        if(visitados.find(no_atual) == visitados.end()){
-            visitados.insert(no_atual);
+//         if(visitados.find(no_atual) == visitados.end()){
+//             visitados.insert(no_atual);
 
-            Aresta *aresta_atual = encontrarNo(no_atual)->getPrimeiraAresta();
-            while (aresta_atual != nullptr) {
-                int no_adjacente = aresta_atual->getIdCabeca();
-                int peso_aresta = aresta_atual->getPeso();
+//             Aresta *aresta_atual = encontrarNo(no_atual)->getPrimeiraAresta();
+//             while (aresta_atual != nullptr) {
+//                 int no_adjacente = aresta_atual->getIdCabeca();
+//                 int peso_aresta = aresta_atual->getPeso();
 
-                if(distancias[no_atual] + peso_aresta < distancias[no_adjacente]){
-                    distancias[no_adjacente] = distancias[no_atual] + peso_aresta;
-                    predecessores[no_adjacente] = no_atual;
-                    pq.push(make_pair(distancias[no_adjacente], no_adjacente));
-                }
+//                 if(distancias[no_atual] + peso_aresta < distancias[no_adjacente]){
+//                     distancias[no_adjacente] = distancias[no_atual] + peso_aresta;
+//                     predecessores[no_adjacente] = no_atual;
+//                     pq.push(make_pair(distancias[no_adjacente], no_adjacente));
+//                 }
 
-                aresta_atual = aresta_atual->getProxAresta();
-            }
-        }
-    }
+//                 aresta_atual = aresta_atual->getProxAresta();
+//             }
+//         }
+//     }
 
-    //construi o caminho mínimo e seu custo
-    vector<int> caminho;
-    int no_atual = id_cabeca;
-    while(no_atual != -1){
-        caminho.push_back(no_atual);
-        no_atual = predecessores[no_atual];
-    }
-    reverse(caminho.begin(), caminho.end());
+//     //construi o caminho mínimo e seu custo
+//     vector<int> caminho;
+//     int no_atual = id_cabeca;
+//     while(no_atual != -1){
+//         caminho.push_back(no_atual);
+//         no_atual = predecessores[no_atual];
+//     }
+//     reverse(caminho.begin(), caminho.end());
 
-    return caminho;
-}
+//     return caminho;
+// }
 
-vector<int> Grafo::floydWarshall(int id_calda, int id_cabeca){
-    const int infinito = numeric_limits<int>::max();
-    vector<vector<int>> distancias; //matriz de distancia minima
+// vector<int> Grafo::floydWarshall(int id_calda, int id_cabeca){
+//     const int infinito = numeric_limits<int>::max();
+//     vector<vector<int>> distancias; //matriz de distancia minima
 
-    //inicializacao da matriz de distancias com infinito e 0 na diagonal principal   
-    for(No *no = primeiro_no; no != nullptr; no = no->getProxNo()){
-        distancias[no->getId()][no->getId()] = 0;
-        Aresta *aresta_atual = no->getPrimeiraAresta();
+//     //inicializacao da matriz de distancias com infinito e 0 na diagonal principal   
+//     for(No *no = primeiro_no; no != nullptr; no = no->getProxNo()){
+//         distancias[no->getId()][no->getId()] = 0;
+//         Aresta *aresta_atual = no->getPrimeiraAresta();
 
-        while(aresta_atual != nullptr){
-            distancias[no->getId()][aresta_atual->getIdCabeca()] = aresta_atual->getPeso();
-            aresta_atual = aresta_atual->getProxAresta();
-        }
-    }
+//         while(aresta_atual != nullptr){
+//             distancias[no->getId()][aresta_atual->getIdCabeca()] = aresta_atual->getPeso();
+//             aresta_atual = aresta_atual->getProxAresta();
+//         }
+//     }
 
-    //algoritmo de floyd
-    for(No *k = primeiro_no; k != nullptr; k = k->getProxNo()){
-        for(No *i = primeiro_no; i != nullptr; i = i->getProxNo()){
-            for(No *j = primeiro_no; j != nullptr; j = j->getProxNo()){
-                if((distancias[i->getId()][k->getId()] != infinito) && (distancias[k->getId()][j->getId()] != infinito) &&
-                    (distancias[i->getId()][k->getId()] + distancias[k->getId()][j->getId()]) < distancias[i->getId()][j->getId()]){
-                        distancias[i->getId()][j->getId()] = distancias[i->getId()][k->getId()] + distancias[k->getId()][j->getId()];
-                }
-            }
-        }
-    }
+//     //algoritmo de floyd
+//     for(No *k = primeiro_no; k != nullptr; k = k->getProxNo()){
+//         for(No *i = primeiro_no; i != nullptr; i = i->getProxNo()){
+//             for(No *j = primeiro_no; j != nullptr; j = j->getProxNo()){
+//                 if((distancias[i->getId()][k->getId()] != infinito) && (distancias[k->getId()][j->getId()] != infinito) &&
+//                     (distancias[i->getId()][k->getId()] + distancias[k->getId()][j->getId()]) < distancias[i->getId()][j->getId()]){
+//                         distancias[i->getId()][j->getId()] = distancias[i->getId()][k->getId()] + distancias[k->getId()][j->getId()];
+//                 }
+//             }
+//         }
+//     }
 
-    //construcao do caminho minimo e seu custo
-    vector<int> caminho;
-    int custo = distancias[id_calda][id_cabeca];
-    if (custo != infinito){
-        int no_atual = id_calda;
-        caminho.push_back(no_atual);
-        while (no_atual != id_cabeca){
-            for (No *no = primeiro_no; no != nullptr; no = no->getProxNo()) {
-                if (distancias[no_atual][no->getId()] + distancias[no->getId()][id_cabeca] == custo){
-                    no_atual = no->getId();
-                    caminho.push_back(no_atual);
-                    break;
-                }
-            }
-        }
-    }
-    return caminho;
-}
+//     //construcao do caminho minimo e seu custo
+//     vector<int> caminho;
+//     int custo = distancias[id_calda][id_cabeca];
+//     if (custo != infinito){
+//         int no_atual = id_calda;
+//         caminho.push_back(no_atual);
+//         while (no_atual != id_cabeca){
+//             for (No *no = primeiro_no; no != nullptr; no = no->getProxNo()) {
+//                 if (distancias[no_atual][no->getId()] + distancias[no->getId()][id_cabeca] == custo){
+//                     no_atual = no->getId();
+//                     caminho.push_back(no_atual);
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     return caminho;
+// }
 
 
-void Grafo::vizinhancaAberta(int id){
-    No *no = encontrarNo(id);
-    Aresta *aresta = no->getPrimeiraAresta();
-    vector< int > vizinhancaAberta;
+// void Grafo::vizinhancaAberta(int id){
+//     No *no = encontrarNo(id);
+//     Aresta *aresta = no->getPrimeiraAresta();
+//     vector<int> vizinhancaAberta;
 
-    for(; aresta != nullptr; aresta = aresta->getProxAresta()){
-        if(aresta->getIdCauda() == id)
-            vizinhancaAberta.push_back(aresta->getIdCabeca());
-        else
-            vizinhancaAberta.push_back(aresta->getIdCauda());
-    }
-    cout << "A vizinhança aberta é: " << endl; 
-    for (int i = 0; i < static_cast<int>(vizinhancaAberta.size()); i++){
-        cout << vizinhancaAberta[i] << " ";
-    }
-    cout << endl;
+//     for(; aresta != nullptr; aresta = aresta->getProxAresta()){
+//         if(aresta->getIdCauda() == id)
+//             vizinhancaAberta.push_back(aresta->getIdCabeca());
+//         else
+//             vizinhancaAberta.push_back(aresta->getIdCauda());
+//     }
+//     cout << "A vizinhança aberta é: " << endl; 
+//     for (int i = 0; i < static_cast<int>(vizinhancaAberta.size()); i++){
+//         cout << vizinhancaAberta[i] << " ";
+//     }
+//     cout << endl;
 
-    return;
-}
+//     return;
+// }
 
-void Grafo::vizinhancaFechada(int id){
-    No *no = encontrarNo(id);
-    Aresta *aresta = no->getPrimeiraAresta();
-    vector<int> vizinhancaFechada;
+// void Grafo::vizinhancaFechada(int id){
+//     No *no = encontrarNo(id);
+//     Aresta *aresta = no->getPrimeiraAresta();
+//     vector<int> vizinhancaFechada;
 
-    vizinhancaFechada.push_back(id);
+//     vizinhancaFechada.push_back(id);
 
-    for(; aresta != nullptr; aresta = aresta->getProxAresta()){
-        if(aresta->getIdCauda() == id)
-            vizinhancaFechada.push_back(aresta->getIdCabeca());
-        else
-            vizinhancaFechada.push_back(aresta->getIdCauda());
+//     for(; aresta != nullptr; aresta = aresta->getProxAresta()){
+//         if(aresta->getIdCauda() == id)
+//             vizinhancaFechada.push_back(aresta->getIdCabeca());
+//         else
+//             vizinhancaFechada.push_back(aresta->getIdCauda());
         
-    }
+//     }
     
-    cout << "A vizinhança fechada é: " << endl; 
-    for (int i = 0; i < static_cast<int>(vizinhancaFechada.size()); i++)
-        cout << vizinhancaFechada[i] << " ";
+//     cout << "A vizinhança fechada é: " << endl; 
+//     for (int i = 0; i < static_cast<int>(vizinhancaFechada.size()); i++)
+//         cout << vizinhancaFechada[i] << " ";
 
-    cout << endl;
+//     cout << endl;
 
-    return;
-}
+//     return;
+// }
