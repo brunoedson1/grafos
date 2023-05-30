@@ -39,16 +39,18 @@ Aresta *No::getPrimeiraAresta(){
 }
 
 void No::insereAresta(int id_cabeca, int peso_aresta){
-        Aresta *nova_aresta = new Aresta(id_cabeca, peso_aresta);
-        Aresta *aux = this->primeira_aresta;
+    Aresta *nova_aresta = new Aresta(id_cabeca, peso_aresta);
 
-        aux->setProxAresta(nova_aresta);
+    if(this->primeira_aresta == nullptr)
         this->primeira_aresta = nova_aresta;
-        nova_aresta->setProxAresta(aux->getProxAresta());
-    
+    else{
+        Aresta *aux = this->primeira_aresta;
+        this->primeira_aresta = nova_aresta;
+        primeira_aresta->setProxAresta(aux);
+    } 
 }
 
-// Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
+// Aresta *No::buscaAresta(int id_cauda, int id_cabeca){
 //     Aresta *Aresta = this->primeira_aresta;
 
 //     if(this->primeira_aresta == nullptr)

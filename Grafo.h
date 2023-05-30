@@ -46,8 +46,8 @@ class Grafo{
         // vector<int> dijkstra(int id_calda, int id_cabeca);
         // vector<int> floydWarshall(int id_calda, int id_cabeca);
 
-        void vizinhancaAberta(int id);
-        void vizinhancaFechada(int id);
+        // void vizinhancaAberta(int id);
+        // void vizinhancaFechada(int id);
 };
 
 #endif // GRAFO_H_INCLUDED

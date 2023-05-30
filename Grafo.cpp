@@ -43,21 +43,21 @@ void Grafo::insereAresta(int id_cauda, int id_cabeca, float peso){
 
     if(cauda == nullptr){
         this->insereNoFim(id_cauda);
+        cauda = encontrarNo(id_cauda); //atualiza cauda após a inserção
     }
     if(cabeca == nullptr){
         this->insereNoFim(id_cabeca);
+        cabeca = encontrarNo(id_cabeca); //atualiza cabeça após a inserção
     }
 
     cauda->insereAresta(id_cabeca, peso);
 
     if(!this->getDigrafo()){
-        cauda->insereAresta(id_cabeca, peso);
         cabeca->insereAresta(id_cauda, peso);
         cauda->setGrau(cauda->getGrauNo() + 1);
         cabeca->setGrau(cabeca->getGrauNo() + 1);
     }
     else{
-        cauda->insereAresta(id_cabeca, peso);
         cabeca->setEntrada(cabeca->getEntrada() + 1);
         cauda->setSaida(cauda->getSaida() + 1);
     }
