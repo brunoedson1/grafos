@@ -6,16 +6,16 @@ using namespace std;
 class Aresta{
     private:
         Aresta *proxima_aresta;
-        float peso;
+        int peso;
         //int id_cauda;
         int id_cabeca;
         
     public:
-        Aresta(int id_cabeca, float peso);
+        Aresta(int id_cabeca, int peso);
         //Aresta(Aresta *proxima_aresta, int id_cabeca, int id_cauda, float peso);
         ~Aresta();
 
-        float getPeso();
+        int getPeso();
         //int getIdCauda();
         int getIdCabeca();
         Aresta *getProxAresta();

@@ -9,8 +9,9 @@ No::No(){
     this->proximo_no = nullptr;
 }
 
-No::No(int id){
+No::No(int id, int peso){
     this->id = id;
+    this->peso = peso;
     this->grau = 0;
     this->primeira_aresta = nullptr;
     this->proximo_no = nullptr;

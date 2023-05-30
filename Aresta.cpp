@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Aresta::Aresta(int id_cabeca, float peso){
+Aresta::Aresta(int id_cabeca, int peso){
     this->proxima_aresta = nullptr;
     this->id_cabeca = id_cabeca;
     //this->id_cauda = ;
@@ -18,7 +18,7 @@ Aresta::~Aresta(){
     }
 }
 
-float Aresta::getPeso(){
+int Aresta::getPeso(){
     return this->peso;
 }
 

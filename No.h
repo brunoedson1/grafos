@@ -10,14 +10,14 @@ class No{
         Aresta *primeira_aresta;
         No *proximo_no;
         int id;
-        int grau; //
+        int grau; 
         int grau_entrada;
         int grau_saida;
-        int peso; /// implementar
+        int peso;
 
     public:
         No();
-        No(int id);
+        No(int id, int peso);
         ~No();
 
         Aresta *getPrimeiraAresta();

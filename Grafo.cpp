@@ -18,20 +18,21 @@ Grafo::Grafo(bool digrafo, bool pVertice, bool pAresta)
     this->ultimo_no = nullptr;
     ponderado_vertice = pVertice;
     ponderado_aresta = pAresta;
+    num_vertice = this->getOrdem();
 }
 
 Grafo::~Grafo()
 {
 }
 
-void Grafo::insereNoInicio(int id){
-    No *no = new No(id); 
+void Grafo::insereNoInicio(int id, int peso){
+    No *no = new No(id, peso); 
     no->setProxNo(this->primeiro_no);
     this->primeiro_no = no;
 }
 
-void Grafo::insereNoFim(int id){
-    No *no = new No(id);
+void Grafo::insereNoFim(int id, int peso){
+    No *no = new No(id, peso);
     no->setProxNo(nullptr);
 
     if(this->primeiro_no == nullptr){
@@ -44,16 +45,16 @@ void Grafo::insereNoFim(int id){
     }
 }
 
-void Grafo::insereAresta(int id_cauda, int id_cabeca, float peso){
+void Grafo::insereAresta(int id_cauda, int id_cabeca, int peso){
     No *cauda = encontrarNo(id_cauda);
     No *cabeca = encontrarNo(id_cabeca);
 
     if(cauda == nullptr){
-        this->insereNoFim(id_cauda);
+        this->insereNoFim(id_cauda, peso);
         cauda = encontrarNo(id_cauda); //atualiza cauda após a inserção
     }
     if(cabeca == nullptr){
-        this->insereNoFim(id_cabeca);
+        this->insereNoFim(id_cabeca, peso);
         cabeca = encontrarNo(id_cabeca); //atualiza cabeça após a inserção
     }
 
@@ -368,6 +369,31 @@ No *Grafo::encontrarNo(int id)
         no_atual = no_atual->getProxNo();
     }
     return nullptr;
+}
+
+int Grafo::contAresta(){
+    No *no = this->primeiro_no;
+    int cont = 0;
+    if (no == nullptr)
+    {
+        cout << "Grafo Vazio!" << endl;
+        return 0;
+    }
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            cont++;
+            aresta = aresta->getProxAresta();
+            
+        }
+
+        no = no->getProxNo();
+    }
+
+    return cont/2;
 }
 
 int *Grafo::seqDeGraus()

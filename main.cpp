@@ -3,11 +3,11 @@
 #include <iostream>
 #include <fstream>
 #include "Grafo.h"
-#include "Grafo.cpp"
+//#include "Grafo.cpp"
 #include "Aresta.h"
-#include "Aresta.cpp"
+//#include "Aresta.cpp"
 #include "No.h"
-#include "No.cpp"
+//#include "No.cpp"
 
 using namespace std;
 
@@ -52,11 +52,11 @@ int main(int argc, char const *argv[]){
     /*cout << "Removendo a aresta 1 - 2" << endl;
     grafo->removeAresta(1,2);
     cout << "Removendo a aresta 2 - 1" << endl;*/
-    grafo->removeNo(2);
+    //grafo->removeNo(2);
     grafo->imprime(); 
     
 
-    No *no = grafo->getPrimeiroNo();
+    /*No *no = grafo->getPrimeiroNo();
     if(no == nullptr){
         cout << "Grafo Vazio!" << endl;
         return 0;
@@ -73,8 +73,8 @@ int main(int argc, char const *argv[]){
         saida << endl;
 
         no = no->getProxNo();
-    }
- 
+    }*/
+    cout<<"Numero de arestas:" << grafo->contAresta()<<endl;
   
     entrada.close();
     saida.close();

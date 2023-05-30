@@ -13,19 +13,19 @@ class Grafo{
         No *primeiro_no;
         No *ultimo_no;
         bool digrafo;
-        bool ponderado_aresta;// implementar
-        bool ponderado_vertice;// implementar
-        int num_vertice; // implementar
-        int num_aresta;// implementar
+        bool ponderado_aresta;
+        bool ponderado_vertice;
+        int num_vertice; // getOrdem
+        int num_aresta;// terminar contAresta
         vector<No*> lista_nos; 
 
     public:
         Grafo(bool digrafo, bool pVertice, bool pAresta);
         ~Grafo();
 
-        void insereNoInicio(int id);
-        void insereNoFim(int id);
-        void insereAresta(int id_cauda, int id_cabeca, float peso);
+        void insereNoInicio(int id, int peso);
+        void insereNoFim(int id, int peso);
+        void insereAresta(int id_cauda, int id_cabeca, int peso);
         
         bool getDigrafo();
         int getGrauNo(int id); 
@@ -33,6 +33,7 @@ class Grafo{
         bool getKRegular(int k);
         int getGrauGrafo();
         int getOrdem();
+        int contAresta();
         
         void removeNo(int id);
         void removeAresta(int id_cauda, int id_cabeca);
