@@ -38,9 +38,13 @@ Aresta *No::getPrimeiraAresta(){
     return this->primeira_aresta;
 }
 
-void No::insereAresta(int id_cauda, int id_cabeca, float peso){
-    Aresta *nova_aresta = new Aresta(id_cauda, id_cabeca, peso);
+void No::insereAresta( int id_cabeca, int peso){
+    Aresta *nova_aresta = new Aresta(id_cabeca, peso);
 
+    nova_aresta->setProxAresta(getPrimeiraAresta());
+    primeira_aresta = nova_aresta;
+
+    /*
     if(this->primeira_aresta == nullptr){
         this->primeira_aresta = nova_aresta;
     }else{
@@ -52,10 +56,10 @@ void No::insereAresta(int id_cauda, int id_cabeca, float peso){
         }
         
         aux->setProxAresta(nova_aresta);
-    }
+    }*/
 }
 
-Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
+/*Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
     Aresta *Aresta = this->primeira_aresta;
 
     if(this->primeira_aresta == nullptr){
@@ -74,7 +78,8 @@ Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
     }
 
     return Aresta;
-}
+}*/
+
 
 bool No::removeAresta(int id_cauda, int id_cabeca){
     Aresta *aresta = this->primeira_aresta;
@@ -86,9 +91,9 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
     }
 
     while(aresta != nullptr){
-        if(aresta->getIdCabeca() == id_cabeca && aresta->getIdCauda() == id_cauda){
+        if(aresta->getIdCabeca() == id_cabeca)
             break;
-        }
+        
         aresta_anteriror = aresta;
         aresta = aresta->getProxAresta();
     }
@@ -98,15 +103,14 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
         return false;
     }
 
-    if(aresta_anteriror == nullptr){
+    if(aresta_anteriror == nullptr)
         this->primeira_aresta = aresta->getProxAresta();
-    }else if(aresta->getProxAresta() == nullptr){
+    else if(aresta->getProxAresta() == nullptr)
         aresta_anteriror->setProxAresta(nullptr);
-    }else{
+    else
         aresta_anteriror->setProxAresta(aresta->getProxAresta());
-    }
     
-    delete aresta;
+    aresta = nullptr;
     return true;
 }
 

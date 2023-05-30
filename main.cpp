@@ -3,12 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include "Grafo.h"
-#include "Grafo.cpp"
-#include "Aresta.h"
-#include "Aresta.cpp"
 #include "No.h"
-#include "No.cpp"
-
+#include "Aresta.h"
 using namespace std;
 
 Grafo *ler(ifstream &entrada){
@@ -17,24 +13,24 @@ Grafo *ler(ifstream &entrada){
     int id_cabeca;
     float peso;
     bool digrafo = false;
-    Grafo *grafo = new Grafo(digrafo);
+    Grafo *grafo = new Grafo(digrafo, true, true);
 
     entrada >> ordem_grafo;
     cout << "A ordem do grafo é: " << ordem_grafo << endl;
 
     while(entrada >> id_cauda >> id_cabeca >> peso)
-        grafo->insereAresta(id_cauda, id_cabeca, peso);
+       grafo->insereAresta(id_cauda, id_cabeca, peso);
 
     grafo->imprime();
 
-    //return grafo;
+    return grafo;
 }
 
 int main(int argc, char const *argv[]){
     ifstream entrada;
     ofstream saida;
     bool digrafo = false;
-    Grafo *grafo = new Grafo(digrafo);
+    Grafo *grafo = new Grafo(digrafo, true, true);
 
     if (argc != 3){
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
@@ -49,13 +45,33 @@ int main(int argc, char const *argv[]){
     else
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
     
-    
-    cout << "Removendo a aresta 1 - 2" << endl;
+    /*cout << "Removendo a aresta 1 - 2" << endl;
     grafo->removeAresta(1,2);
-    cout << "Removendo a aresta 2 - 1" << endl;
-    grafo->removeAresta(2,1);
-    grafo->imprime();
+    cout << "Removendo a aresta 2 - 1" << endl;*/
+    grafo->removeNo(2);
+    grafo->imprime(); 
+    
 
+    No *no = grafo->getPrimeiroNo();
+    if(no == nullptr){
+        cout << "Grafo Vazio!" << endl;
+        return 0;
+    }
+
+    while (no != nullptr){
+        saida << "(" << no->getId() << ")" << endl;
+        Aresta *aresta = no->getPrimeiraAresta();
+        saida << " ";
+        while (aresta != nullptr ){
+            saida << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
+            aresta = aresta->getProxAresta();
+        }
+        saida << endl;
+
+        no = no->getProxNo();
+    }
+ 
+  
     entrada.close();
     saida.close();
     delete grafo;
