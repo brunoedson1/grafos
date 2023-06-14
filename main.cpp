@@ -48,15 +48,8 @@ int main(int argc, char const *argv[]){
         grafo = ler(entrada);   
     else
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
-    
-    /*cout << "Removendo a aresta 1 - 2" << endl;
-    grafo->removeAresta(1,2);
-    cout << "Removendo a aresta 2 - 1" << endl;*/
-    //grafo->removeNo(2);
-    grafo->imprime(); 
-    
 
-    /*No *no = grafo->getPrimeiroNo();
+    No *no = grafo->getPrimeiroNo();
     if(no == nullptr){
         cout << "Grafo Vazio!" << endl;
         return 0;
@@ -71,11 +64,9 @@ int main(int argc, char const *argv[]){
             aresta = aresta->getProxAresta();
         }
         saida << endl;
-
         no = no->getProxNo();
-    }*/
-    cout<<"Numero de arestas:" << grafo->contAresta()<<endl;
-  
+    }
+    
     entrada.close();
     saida.close();
     delete grafo;

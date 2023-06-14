@@ -150,7 +150,18 @@ void Grafo::removeNo(int id){
 
     // Remover as arestas relacionadas ao nó a ser removido
     No *no_atual = primeiro_no;
+    
+    while (no_atual != nullptr){
+        Aresta *aresta = no_atual->getPrimeiraAresta();
+        while (aresta != nullptr ){
+            if(aresta->getIdCabeca() == id)
+                removeAresta(no_atual->getId(),id);
+            aresta = aresta->getProxAresta();
+        }
+        no_atual = no_atual->getProxNo();
+    }
 
+    //Remover nó
     if(no == primeiro_no)
         primeiro_no = no->getProxNo();
     else{
