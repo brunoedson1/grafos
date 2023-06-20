@@ -34,6 +34,7 @@ class Grafo{
         int getGrauGrafo();
         int getOrdem();
         int contAresta();
+
         
         void removeNo(int id);
         void removeAresta(int id_cauda, int id_cabeca);
@@ -43,6 +44,7 @@ class Grafo{
         //bool ehMultiGrafo();
         bool grafoCompleto();
         bool ehBipartido();
+        bool comparaPeso( No &p,  No &q);
 
         No *encontrarNo(int id);
         int *seqDeGraus();
@@ -52,6 +54,8 @@ class Grafo{
 
         // void vizinhancaAberta(int id);
         // void vizinhancaFechada(int id);
+
+        void ordenaLista();
 };
 
 #endif // GRAFO_H_INCLUDED

@@ -138,3 +138,11 @@ void No::setEntrada(int grau){
 void No::setSaida(int grau){
     this->grau_saida = grau;
 }
+
+void No::setPeso(int peso){
+    this->peso = peso;
+}
+
+int No::getPeso(){
+    return this->peso;
+}

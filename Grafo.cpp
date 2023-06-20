@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stack>
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>
@@ -25,47 +26,58 @@ Grafo::~Grafo()
 {
 }
 
-void Grafo::insereNoInicio(int id, int peso){
-    No *no = new No(id, peso); 
+void Grafo::insereNoInicio(int id, int peso)
+{
+    No *no = new No(id, peso);
     no->setProxNo(this->primeiro_no);
     this->primeiro_no = no;
 }
 
-void Grafo::insereNoFim(int id, int peso){
+void Grafo::insereNoFim(int id, int peso)
+{
     No *no = new No(id, peso);
     no->setProxNo(nullptr);
 
-    if(this->primeiro_no == nullptr){
+    if (this->primeiro_no == nullptr)
+    {
         this->primeiro_no = no;
         this->ultimo_no = no;
     }
-    else{
+    else
+    {
         this->ultimo_no->setProxNo(no);
         this->ultimo_no = no;
     }
 }
 
-void Grafo::insereAresta(int id_cauda, int id_cabeca, int peso){
+void Grafo::insereAresta(int id_cauda, int id_cabeca, int peso)
+{
     No *cauda = encontrarNo(id_cauda);
     No *cabeca = encontrarNo(id_cabeca);
 
-    if(cauda == nullptr){
+    if (cauda == nullptr)
+    {
         this->insereNoFim(id_cauda, peso);
-        cauda = encontrarNo(id_cauda); //atualiza cauda após a inserção
+        cauda = encontrarNo(id_cauda); // atualiza cauda após a inserção
     }
-    if(cabeca == nullptr){
+    if (cabeca == nullptr)
+    {
         this->insereNoFim(id_cabeca, peso);
-        cabeca = encontrarNo(id_cabeca); //atualiza cabeça após a inserção
+        cabeca = encontrarNo(id_cabeca); // atualiza cabeça após a inserção
     }
 
     cauda->insereAresta(id_cabeca, peso);
 
-    if(!this->getDigrafo()){
+    if (!this->getDigrafo())
+    {
         cabeca->insereAresta(id_cauda, peso);
         cauda->setGrau(cauda->getGrauNo() + 1);
         cabeca->setGrau(cabeca->getGrauNo() + 1);
+        cauda->setPeso((cauda->getId() % 200) + 1);
+        cabeca->setPeso((cabeca->getId() % 200) + 1);
     }
-    else{
+    else
+    {
         cabeca->setEntrada(cabeca->getEntrada() + 1);
         cauda->setSaida(cauda->getSaida() + 1);
     }
@@ -141,34 +153,39 @@ int Grafo::getOrdem()
     return ordem;
 }
 
-void Grafo::removeNo(int id){
+void Grafo::removeNo(int id)
+{
     No *no = encontrarNo(id);
-    if(no == nullptr) {
+    if (no == nullptr)
+    {
         cout << "Nó não encontrado no grafo" << endl;
         return;
     }
 
     // Remover as arestas relacionadas ao nó a ser removido
     No *no_atual = primeiro_no;
-    
-    while (no_atual != nullptr){
+
+    while (no_atual != nullptr)
+    {
         Aresta *aresta = no_atual->getPrimeiraAresta();
-        while (aresta != nullptr ){
-            if(aresta->getIdCabeca() == id)
-                removeAresta(no_atual->getId(),id);
+        while (aresta != nullptr)
+        {
+            if (aresta->getIdCabeca() == id)
+                removeAresta(no_atual->getId(), id);
             aresta = aresta->getProxAresta();
         }
         no_atual = no_atual->getProxNo();
     }
 
-    //Remover nó
-    if(no == primeiro_no)
+    // Remover nó
+    if (no == primeiro_no)
         primeiro_no = no->getProxNo();
-    else{
+    else
+    {
         No *no_anterior = primeiro_no;
-        while(no_anterior->getProxNo() != no)
+        while (no_anterior->getProxNo() != no)
             no_anterior = no_anterior->getProxNo();
-        
+
         no_anterior->setProxNo(no->getProxNo());
     }
 
@@ -215,7 +232,8 @@ void Grafo::imprime()
 
     while (no != nullptr)
     {
-        cout << "(" << no->getId() << ")" << endl;
+        cout << "(" << no->getId() << ")"
+             << "peso:" << no->getPeso() << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         cout << " ";
         while (aresta != nullptr)
@@ -228,8 +246,6 @@ void Grafo::imprime()
         no = no->getProxNo();
     }
 }
-
-
 
 bool Grafo::trivial()
 {
@@ -382,7 +398,8 @@ No *Grafo::encontrarNo(int id)
     return nullptr;
 }
 
-int Grafo::contAresta(){
+int Grafo::contAresta()
+{
     No *no = this->primeiro_no;
     int cont = 0;
     if (no == nullptr)
@@ -398,13 +415,12 @@ int Grafo::contAresta(){
         {
             cont++;
             aresta = aresta->getProxAresta();
-            
         }
 
         no = no->getProxNo();
     }
 
-    return cont/2;
+    return cont / 2;
 }
 
 int *Grafo::seqDeGraus()
@@ -437,6 +453,36 @@ int *Grafo::seqDeGraus()
         }
     }
     return sequencia;
+}
+
+/*bool Grafo::comparaPeso( No &p, No &q){
+    return ((p.getPeso() / p.getGrauNo()) <= (q.getPeso() / q.getGrauNo()));
+}*/
+
+void Grafo::ordenaLista()
+{
+    vector<No> LC;
+    No *p = primeiro_no;
+    //No LC[5];
+    
+    //No *q = p->getProxNo();
+    //int i = 1;
+    while (p != NULL)
+    {   
+        //No[0] = p;
+        LC.push_back(No(*p));
+        p = p->getProxNo();
+        
+    
+    }
+    sort(LC.begin(), LC.end(), comparaPeso);
+    cout<<LC[0].getId()<<endl;
+    cout<<LC[1].getId()<<endl;
+    cout<<LC[2].getId()<<endl;
+    cout<<LC[3].getId()<<endl;
+    cout<<LC[4].getId()<<endl;
+    
+    //return LC;
 }
 
 /*vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca)

@@ -15,18 +15,21 @@ Grafo *ler(ifstream &entrada){
     int ordem_grafo;
     int id_cauda;
     int id_cabeca;
+    char aux;
+    int aux2;
     float peso;
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo, true, true);
 
-    entrada >> ordem_grafo;
+    entrada >> ordem_grafo >> aux2;
+    
     cout << "A ordem do grafo é: " << ordem_grafo << endl;
 
-    while(entrada >> id_cauda >> id_cabeca >> peso)
-       grafo->insereAresta(id_cauda, id_cabeca, peso);
+    while(entrada >> aux >> id_cabeca >> id_cauda)
+       grafo->insereAresta(id_cauda, id_cabeca, 1);
 
-    grafo->imprime();
-
+    //grafo->imprime();
+    
     return grafo;
 }
 
@@ -66,7 +69,8 @@ int main(int argc, char const *argv[]){
         saida << endl;
         no = no->getProxNo();
     }
-    
+
+    grafo->ordenaLista();
     entrada.close();
     saida.close();
     delete grafo;
