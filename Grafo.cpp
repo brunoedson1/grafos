@@ -455,34 +455,45 @@ int *Grafo::seqDeGraus()
     return sequencia;
 }
 
-/*bool Grafo::comparaPeso( No &p, No &q){
-    return ((p.getPeso() / p.getGrauNo()) <= (q.getPeso() / q.getGrauNo()));
+/*vector<No> Grafo::obterListaDeNos() {
+    vector<No> listaNos;
+    No* no = primeiro_no;
+    if(no == nullptr){
+        cout << "Grafo Vazio!" << endl;
+        return;
+    }
+
+    while (no != nullptr){
+        listaNos.push_back(*no);
+        no = no->getProxNo();
+    }
+    return listaNos;
 }*/
 
-void Grafo::ordenaLista()
+/*bool Grafo::comparaPeso(No &p, No &q)
 {
-    vector<No> LC;
-    No *p = primeiro_no;
-    //No LC[5];
-    
-    //No *q = p->getProxNo();
-    //int i = 1;
-    while (p != NULL)
-    {   
-        //No[0] = p;
-        LC.push_back(No(*p));
-        p = p->getProxNo();
-        
-    
+    return (p.getValor() <= q.getValor());
+}*/
+
+vector<No> Grafo::ordenaLista()
+{
+
+    vector<No> listaNos;
+    No *no = primeiro_no;
+    /*if(no == nullptr){
+        cout << "Grafo Vazio!" << endl;
+        return;
+    }*/
+
+    while (no != nullptr)
+    {
+        listaNos.push_back(*no);
+        no = no->getProxNo();
     }
-    sort(LC.begin(), LC.end(), comparaPeso);
-    cout<<LC[0].getId()<<endl;
-    cout<<LC[1].getId()<<endl;
-    cout<<LC[2].getId()<<endl;
-    cout<<LC[3].getId()<<endl;
-    cout<<LC[4].getId()<<endl;
-    
-    //return LC;
+    sort(listaNos.begin(), listaNos.end(), []( No &p,  No &q){
+            return p.getValor() < q.getValor();
+        });
+    return listaNos;
 }
 
 /*vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca)

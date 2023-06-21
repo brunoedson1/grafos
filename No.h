@@ -11,6 +11,7 @@ class No{
         No *proximo_no;
         int id;
         int grau; 
+        int valor;
         int grau_entrada;
         int grau_saida;
         int peso;
@@ -19,6 +20,7 @@ class No{
         No();
         No(int id, int peso);
         ~No();
+        
 
         Aresta *getPrimeiraAresta();
         int getGrauNo();
@@ -27,6 +29,7 @@ class No{
         int getId();
         int getPeso();
         No *getProxNo();
+        int getValor();
 
         void setId(int id);
         void setProxNo(No *proximo);

@@ -3,15 +3,16 @@
 #include <iostream>
 #include <fstream>
 #include "Grafo.h"
-//#include "Grafo.cpp"
+// #include "Grafo.cpp"
 #include "Aresta.h"
-//#include "Aresta.cpp"
+// #include "Aresta.cpp"
 #include "No.h"
-//#include "No.cpp"
+// #include "No.cpp"
 
 using namespace std;
 
-Grafo *ler(ifstream &entrada){
+Grafo *ler(ifstream &entrada)
+{
     int ordem_grafo;
     int id_cauda;
     int id_cabeca;
@@ -22,24 +23,26 @@ Grafo *ler(ifstream &entrada){
     Grafo *grafo = new Grafo(digrafo, true, true);
 
     entrada >> ordem_grafo >> aux2;
-    
+
     cout << "A ordem do grafo é: " << ordem_grafo << endl;
 
-    while(entrada >> aux >> id_cabeca >> id_cauda)
-       grafo->insereAresta(id_cauda, id_cabeca, 1);
+    while (entrada >> aux >> id_cabeca >> id_cauda)
+        grafo->insereAresta(id_cauda, id_cabeca, 1);
 
-    //grafo->imprime();
-    
+    // grafo->imprime();
+
     return grafo;
 }
 
-int main(int argc, char const *argv[]){
+int main(int argc, char const *argv[])
+{
     ifstream entrada;
     ofstream saida;
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo, true, true);
 
-    if (argc != 3){
+    if (argc != 3)
+    {
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
         return 5;
     }
@@ -47,22 +50,25 @@ int main(int argc, char const *argv[]){
     entrada.open(argv[1], ios::in);
     saida.open(argv[2], ios::out | ios::trunc);
 
-    if(entrada.is_open())
-        grafo = ler(entrada);   
+    if (entrada.is_open())
+        grafo = ler(entrada);
     else
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
 
     No *no = grafo->getPrimeiroNo();
-    if(no == nullptr){
+    if (no == nullptr)
+    {
         cout << "Grafo Vazio!" << endl;
         return 0;
     }
 
-    while (no != nullptr){
+    while (no != nullptr)
+    {
         saida << "(" << no->getId() << ")" << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         saida << " ";
-        while (aresta != nullptr ){
+        while (aresta != nullptr)
+        {
             saida << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
             aresta = aresta->getProxAresta();
         }
@@ -70,7 +76,15 @@ int main(int argc, char const *argv[]){
         no = no->getProxNo();
     }
 
-    grafo->ordenaLista();
+    ;
+
+    for (auto &no : grafo->ordenaLista())
+    {   
+        cout<< "no: " << no.getId()<<" valor: "  << no.getValor() << endl;
+        cout  << " " <<endl;
+    }
+    
+
     entrada.close();
     saida.close();
     delete grafo;

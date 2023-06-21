@@ -28,12 +28,14 @@ class Grafo{
         void insereAresta(int id_cauda, int id_cabeca, int peso);
         
         bool getDigrafo();
-        int getGrauNo(int id); 
+        int getGrauNo(int id);
+        
         No* getPrimeiroNo(); 
         bool getKRegular(int k);
         int getGrauGrafo();
         int getOrdem();
         int contAresta();
+        //vector<No> obterListaDeNos();
 
         
         void removeNo(int id);
@@ -44,7 +46,7 @@ class Grafo{
         //bool ehMultiGrafo();
         bool grafoCompleto();
         bool ehBipartido();
-        bool comparaPeso( No &p,  No &q);
+        bool comparaPeso(No &p,No &q);
 
         No *encontrarNo(int id);
         int *seqDeGraus();
@@ -55,7 +57,7 @@ class Grafo{
         // void vizinhancaAberta(int id);
         // void vizinhancaFechada(int id);
 
-        void ordenaLista();
+        vector<No> ordenaLista();
 };
 
 #endif // GRAFO_H_INCLUDED

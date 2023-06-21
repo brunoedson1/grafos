@@ -146,3 +146,8 @@ void No::setPeso(int peso){
 int No::getPeso(){
     return this->peso;
 }
+
+int No::getValor(){
+
+    return this->getPeso() / this->getGrauNo();
+}
