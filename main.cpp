@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+
 #include "Grafo.h"
 #include "Aresta.h"
 #include "No.h"
+
+#include "Grafo.cpp"
+#include "Aresta.cpp"
+#include "No.cpp"
 
 using namespace std;
 
@@ -12,18 +17,18 @@ Grafo *ler(ifstream &entrada){
     int ordem_grafo;
     int id_cauda;
     int id_cabeca;
-    float peso;
     bool digrafo = false;
+    char *e = new char;
     Grafo *grafo = new Grafo(digrafo);
 
-    entrada >> ordem_grafo;
-    cout << "A ordem do grafo é: " << ordem_grafo << endl;
+    entrada >> ordem_grafo >> e;
+    cout << "A ordem do grafo e: " << ordem_grafo << endl;
 
-    while(entrada >> id_cauda >> id_cabeca >> peso)
-        grafo->insereAresta(id_cauda, id_cabeca, peso);
+    while(entrada >> e >> id_cauda >> id_cabeca)
+        grafo->insereAresta(id_cauda, id_cabeca, 0);
 
-    grafo->imprime();
-
+    //grafo->imprime();
+    delete e;
     return grafo;
 }
 
@@ -46,30 +51,14 @@ int main(int argc, char const *argv[]){
     else
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
     
-    
-    cout << "Removendo no 2" << endl;
-    grafo->removeNo(2);
-    grafo->imprime();
-
-    cout << "Removendo a aresta 1 - 2" << endl;
-    grafo->removeAresta(1,2);
-    cout << "Removendo a aresta 2 - 1" << endl;
-    grafo->removeAresta(2,1);
-    grafo->imprime();
-
-
-    cout << "É nulo: " << boolalpha << grafo->nulo() << endl;
-
-    cout << "É trivial: " << boolalpha << grafo->trivial() << endl;
-
-    cout << "É multigrafo: " << boolalpha << grafo->ehMultiGrafo() << endl;
-
-    cout << "É bipartido: " << boolalpha << grafo->ehBipartido() << endl;
-
-    cout << "É grafo completo: " << boolalpha << grafo->grafoCompleto() << endl;
 
     entrada.close();
     saida.close();
+
+       
+    grafo->guloso();
+    grafo->randomizado(0.5,5);
+    grafo->reativo(0.5,5);
     delete grafo;
 
     return 0;
