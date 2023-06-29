@@ -35,7 +35,12 @@ class Grafo{
         int getGrauGrafo();
         int getOrdem();
         int contAresta();
-        //vector<No> obterListaDeNos();
+        vector<No> listaNos();
+        bool independente(vector<No> Nos);
+        vector<int> guloso();
+        vector<int> randomizado(float alpha, int numIter);
+        vector<int> reativo(float alpha, int numIter);
+
 
         
         void removeNo(int id);
@@ -43,7 +48,7 @@ class Grafo{
         void imprime(); 
         bool trivial(); 
         bool nulo();
-        //bool ehMultiGrafo();
+        bool ehMultiGrafo();
         bool grafoCompleto();
         bool ehBipartido();
         bool comparaPeso(No &p,No &q);

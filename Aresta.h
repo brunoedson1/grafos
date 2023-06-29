@@ -16,7 +16,7 @@ class Aresta{
         ~Aresta();
 
         int getPeso();
-        //int getIdCauda();
+        int getIdCauda();
         int getIdCabeca();
         Aresta *getProxAresta();
         

@@ -60,7 +60,7 @@ void No::insereAresta( int id_cabeca, int peso){
     }*/
 }
 
-/*Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
+Aresta* No::buscaAresta(int id_cauda, int id_cabeca){
     Aresta *Aresta = this->primeira_aresta;
 
     if(this->primeira_aresta == nullptr){
@@ -68,7 +68,7 @@ void No::insereAresta( int id_cabeca, int peso){
     }
 
     while(Aresta != nullptr){
-        if(Aresta->getIdCabeca() == id_cabeca && Aresta->getIdCauda() == id_cauda){
+        if(Aresta->getIdCabeca() == id_cabeca && getId() == id_cauda){
             break;
         }
         Aresta = Aresta->getProxAresta();
@@ -79,7 +79,7 @@ void No::insereAresta( int id_cabeca, int peso){
     }
 
     return Aresta;
-}*/
+}
 
 
 bool No::removeAresta(int id_cauda, int id_cabeca){

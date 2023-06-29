@@ -3,11 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include "Grafo.h"
-// #include "Grafo.cpp"
+#include <cmath>
 #include "Aresta.h"
-// #include "Aresta.cpp"
 #include "No.h"
-// #include "No.cpp"
 
 using namespace std;
 
@@ -41,11 +39,12 @@ int main(int argc, char const *argv[])
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo, true, true);
 
-    if (argc != 3)
+    if (argc != 6)
     {
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
         return 5;
     }
+
 
     entrada.open(argv[1], ios::in);
     saida.open(argv[2], ios::out | ios::trunc);
@@ -78,11 +77,14 @@ int main(int argc, char const *argv[])
 
     ;
 
-    for (auto &no : grafo->ordenaLista())
+    /*for (auto &no : grafo->ordenaLista())
     {   
         cout<< "no: " << no.getId()<<" valor: "  << no.getValor() << endl;
         cout  << " " <<endl;
-    }
+    }*/
+
+    //grafo->randomizado(0.5,20);
+    cout<<"multigrafo: "<<grafo->ehMultiGrafo();
     
 
     entrada.close();

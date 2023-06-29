@@ -39,7 +39,7 @@ class No{
         void setPeso(int peso);
 
         void insereAresta(int id_cabeca, int peso_aresta);
-        // Aresta *buscaAresta(int id_cauda, int id_cabeca);
+        Aresta *buscaAresta(int id_cauda, int id_cabeca);
         bool removeAresta(int id_cauda, int id_cabeca);
 
 };

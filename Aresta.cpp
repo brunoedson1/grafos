@@ -6,7 +6,7 @@ using namespace std;
 Aresta::Aresta(int id_cabeca, int peso){
     this->proxima_aresta = nullptr;
     this->id_cabeca = id_cabeca;
-    //this->id_cauda = ;
+    this->id_cauda = 
     this->peso = peso;
 }
 
@@ -22,9 +22,9 @@ int Aresta::getPeso(){
     return this->peso;
 }
 
-/*int Aresta::getIdCauda(){
+int Aresta::getIdCauda(){
     return id_cauda;
-}*/
+}
 
 int Aresta::getIdCabeca(){
     return this->id_cabeca;
