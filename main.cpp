@@ -7,10 +7,6 @@
 #include "Aresta.h"
 #include "No.h"
 
-#include "Grafo.cpp"
-#include "Aresta.cpp"
-#include "No.cpp"
-
 using namespace std;
 
 Grafo *ler(ifstream &entrada){
@@ -27,7 +23,7 @@ Grafo *ler(ifstream &entrada){
     while(entrada >> e >> id_cauda >> id_cabeca)
         grafo->insereAresta(id_cauda, id_cabeca, 0);
 
-    //grafo->imprime();
+    grafo->imprime();
     delete e;
     return grafo;
 }
