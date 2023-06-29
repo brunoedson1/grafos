@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]){
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo);
 
-    if (argc != 3){
+    if (argc != 6){
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
         return 1;
     }
