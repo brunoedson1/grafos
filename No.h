@@ -13,6 +13,7 @@ class No{
         int grau;
         int grau_entrada;
         int grau_saida;
+        int peso;
 
     public:
         No();
@@ -25,6 +26,8 @@ class No{
         int getSaida();
         int getId();
         No *getProxNo();
+        int getPeso();
+        void setPeso(int);
 
         void setId(int id);
         void setProxNo(No *proximo);
@@ -35,6 +38,7 @@ class No{
         void insereAresta(int id_cauda, int id_cabeca, float peso);
         Aresta *buscaAresta(int id_cauda, int id_cabeca);
         bool removeAresta(int id_cauda, int id_cabeca);
+        bool operator==(No no1);
 
 };
 
