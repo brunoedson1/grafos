@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
@@ -16,6 +17,231 @@ Grafo::Grafo(bool digrafo){
 }
 
 Grafo::~Grafo(){};
+
+bool Grafo::getDigrafo(){return this->digrafo;}
+No *Grafo::getPrimeiroNo(){return this->primeiro_no;}
+
+vector<No> Grafo::listaNos()
+{
+    vector<No> listaNos;
+    No *no = primeiro_no;
+    while (no != nullptr)
+    {
+        listaNos.push_back(*no);
+        no = no->getProxNo();
+    }
+    
+    sort(listaNos.begin(), listaNos.end(), []( No &p,  No &q){
+        return p.getId() < q.getId();});
+
+    // cout<<"Lista ordenada:"<<endl;    
+    // for(auto& elemento : listaNos)
+    // {
+    //     cout<<elemento.getId()<<" ";
+    // }
+    // cout << endl;
+    return listaNos;
+    
+}
+
+bool Grafo::independente(vector<No> Nos)
+{
+    for (int i = 0; i < Nos.size()-1; i++)
+    {
+        for (int j = i+1; j < Nos.size(); j++)
+        {
+            if (Nos[i].buscaAresta(Nos[i].getId(),Nos[j].getId()))
+            {
+                return false;
+            }    
+        }       
+    }
+
+    return true;
+    
+}
+
+vector<int> Grafo::guloso()
+{   
+    vector<No> candidatos = listaNos();
+    sort(candidatos.begin(), candidatos.end(), []( No &p,  No &q){
+        return p.getPeso()/p.getGrauNo() < q.getPeso()/q.getGrauNo();});
+    vector<int> sol;
+    while (!independente(candidatos) || candidatos.empty())
+    {
+        sol.push_back(candidatos[0].getId());
+        candidatos.erase(candidatos.begin());
+    }
+
+    if(!sol.empty())
+    {
+    
+        cout<<"Solucao guloso:"<<endl;
+        for(int c : sol)
+        {
+            cout << c << " ";
+        }
+        cout << endl;
+        return sol;
+        
+    }
+
+    cout<<"Nao ha solucao"<<endl;
+    return sol;  
+
+}
+
+vector<int> Grafo::randomizado(float alpha, int numIter)
+
+{
+    vector<int> solucao;
+    vector<No> solBest,sol;
+    int k, somaSol, somaSolbest;
+    vector<No> candidatos;
+    sort(candidatos.begin(), candidatos.end(), []( No &p,  No &q){
+        return p.getPeso()/p.getGrauNo() < q.getPeso()/q.getGrauNo();});
+
+    for (int i = 0; i < numIter; i++)
+    {   
+        cout<<"i: "<<i<<endl;
+        candidatos = listaNos();
+        sort(candidatos.begin(), candidatos.end(), []( No &p,  No &q){
+        return p.getPeso()/p.getGrauNo() < q.getPeso()/q.getGrauNo();});
+        
+        while (!independente(candidatos) || candidatos.empty())
+            {   
+                k=rand()%int(alpha*candidatos.size());
+                cout<<"  "<<k<<": ";
+                sol.push_back(candidatos[k]);
+                cout<<candidatos[k].getId();
+                candidatos.erase(candidatos.begin()+k);
+                
+            }
+        cout<<endl;
+        cout<<"pass"<<endl;
+        if (i==0)
+        {
+            solBest=sol;
+        }else
+        {
+            somaSol, somaSolbest = 0;
+            for (auto& No : sol)
+            {
+                somaSol+=No.getPeso();
+            }
+
+            for (auto& No : solBest)
+            {
+                somaSolbest+=No.getPeso();
+            
+            }
+            if (somaSol<somaSolbest)
+            {
+                solBest=sol;
+            }
+        }
+  
+    }
+    
+    if (!solBest.empty())
+    {   
+        cout<<"Solucao guloso randomizado:"<<endl;
+        for(No& no : solBest)
+        {
+            solucao.push_back(no.getId());
+            cout<<no.getId()<<" ";
+        }
+        cout<<endl;
+        return solucao;
+    }
+    cout<<"Nao ha solucao"<<endl;
+    return solucao;
+    
+}
+
+vector<int> Grafo::reativo(float alpha, int numIter)
+
+{
+    vector<int> solucao;
+    vector<No> solBest,sol;
+    int k, somaSol, somaSolbest;
+    vector<No> candidatos;
+    sort(candidatos.begin(), candidatos.end(), []( No &p,  No &q){
+        return p.getPeso()/p.getGrauNo() < q.getPeso()/q.getGrauNo();});
+
+    for (int i = 0; i < numIter; i++)
+    {   
+        cout<<"i: "<<i<<endl;
+        candidatos = listaNos();
+        sort(candidatos.begin(), candidatos.end(), []( No &p,  No &q){
+        return p.getPeso()/p.getGrauNo() < q.getPeso()/q.getGrauNo();});
+        
+        while (!independente(candidatos) || candidatos.empty())
+            {   
+                k=rand()%int(ceil(alpha*candidatos.size()));
+                cout<<"  "<<k<<": ";
+                sol.push_back(candidatos[k]);
+                cout<<candidatos[k].getId();
+                candidatos.erase(candidatos.begin()+k);
+                sort(candidatos.begin(), candidatos.end(), [&]( No &p,  No &q)
+                {   
+                    int n, m  = 0;
+                    for (No& no : sol)
+                    {
+                        if (no.buscaAresta(no.getId(),p.getId()))
+                        {
+                            n+=1;
+                        }
+                        if (no.buscaAresta(no.getId(),q.getId()))
+                        {
+                            m+=1;
+                        }
+                        
+                    }                          
+                    
+                    return p.getPeso()/(p.getGrauNo()-n) < q.getPeso()/(q.getGrauNo()-m);
+                });    
+                
+            }
+        if (i==0)
+        {
+            solBest=sol;
+        }else
+        {
+            somaSol, somaSolbest = 0;
+            for (auto& No : sol)
+            {
+                somaSol+=No.getPeso();
+            }
+
+            for (auto& No : solBest)
+            {
+                somaSolbest+=No.getPeso();
+            
+            }
+            if (somaSol<somaSolbest)
+            {
+                solBest=sol;
+            }
+        }
+  
+    }
+    
+    if (!solBest.empty())
+    {   
+        cout<<"Solucao guloso reativo:"<<endl;
+        for(No& no : solBest)
+        {
+            solucao.push_back(no.getId());
+            cout<<no.getId()<<" ";
+        }
+        cout<<endl;
+        return solucao;
+    }
+    cout<<"Nao ha solucao"<<endl;
+    return solucao;
+    
+}
 
 void Grafo::insereNoInicio(int id){
     No *no = new No(id); 
@@ -65,9 +291,6 @@ void Grafo::insereAresta(int id_cauda, int id_cabeca, float peso){
     }
 }
 
-bool Grafo::getDigrafo(){
-    return this->digrafo;
-}
 
 int Grafo::getGrauNo(int id){
     No *no = encontrarNo(id);
@@ -80,9 +303,6 @@ int Grafo::getGrauNo(int id){
     }
 }
 
-No *Grafo::getPrimeiroNo(){
-    return this->primeiro_no;
-}
 
 bool Grafo::getKRegular(int k){
     No *no = this->primeiro_no;
@@ -185,7 +405,7 @@ void Grafo::imprime(){
     }
 
     while (no != nullptr){
-        cout << "(" << no->getId() << ")" << endl;
+        cout <<no->getId() <<"("<<no->getPeso()<< "):" << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         cout << " ";
         while(aresta != nullptr ){
