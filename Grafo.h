@@ -19,6 +19,10 @@ class Grafo{
         void insereNoInicio(int id);
         void insereNoFim(int id);
         void insereAresta(int id_cauda, int id_cabeca, float peso);
+        vector<No> listaNos();
+        vector<int> guloso();
+        vector<int> randomizado(float,int);
+        vector<int> reativo(float,int);
         
         bool getDigrafo();
         int getGrauNo(int id); 
@@ -44,6 +48,7 @@ class Grafo{
 
         void vizinhancaAberta(int id);
         void vizinhancaFechada(int id);
+        bool independente(vector<No>);
 };
 
 #endif // GRAFO_H_INCLUDED
