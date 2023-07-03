@@ -1,5 +1,7 @@
 #ifndef GRAFO_H_INCLUDED
 #define GRAFO_H_INCLUDED
+#include <unordered_map>
+#include <unordered_set>
 #include "No.h"
 #include <stdio.h>
 #include <vector>
@@ -23,8 +25,8 @@ class Grafo{
         Grafo(bool digrafo, bool pVertice, bool pAresta);
         ~Grafo();
 
-        void insereNoInicio(int id, int peso);
-        void insereNoFim(int id, int peso);
+        void insereNoInicio(int id);
+        void insereNoFim(int id);
         void insereAresta(int id_cauda, int id_cabeca, int peso);
         
         bool getDigrafo();
@@ -61,7 +63,10 @@ class Grafo{
 
         // void vizinhancaAberta(int id);
         // void vizinhancaFechada(int id);
-
+        void fechoTransitivoDireto(int id_no);
+        void dfsFechoTransitivoDireto(No* no, unordered_map<No*, bool>& visitado);
+        void fechoTransitivoIndireto(int id);
+        void dfsFechoTransitivoIndireto(No* no, unordered_set<No*>& visitado);
         vector<No> ordenaLista();
 };
 

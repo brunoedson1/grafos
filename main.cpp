@@ -84,7 +84,9 @@ int main(int argc, char const *argv[])
     }*/
 
     //grafo->randomizado(0.5,20);
-    cout<<"multigrafo: "<<grafo->ehMultiGrafo();
+    //cout<<"multigrafo: "<<grafo->ehMultiGrafo();
+    grafo->fechoTransitivoIndireto(2);
+    grafo->imprime();
     
 
     entrada.close();

@@ -9,9 +9,8 @@ No::No(){
     this->proximo_no = nullptr;
 }
 
-No::No(int id, int peso){
+No::No(int id){
     this->id = id;
-    this->peso = peso;
     this->grau = 0;
     this->primeira_aresta = nullptr;
     this->proximo_no = nullptr;
@@ -39,25 +38,19 @@ Aresta *No::getPrimeiraAresta(){
     return this->primeira_aresta;
 }
 
-void No::insereAresta( int id_cabeca, int peso){
-    Aresta *nova_aresta = new Aresta(id_cabeca, peso);
+void No::insereAresta(int id_cauda, int id_cabeca, int peso){
+    Aresta *nova_aresta = new Aresta(id_cauda, id_cabeca, peso);
 
-    nova_aresta->setProxAresta(getPrimeiraAresta());
-    primeira_aresta = nova_aresta;
-
-    /*
-    if(this->primeira_aresta == nullptr){
+    if(this->primeira_aresta == nullptr)
         this->primeira_aresta = nova_aresta;
-    }else{
+    else{
         Aresta *aux = this->primeira_aresta;
 
         while (aux->getProxAresta() != nullptr)
-        {
             aux = aux->getProxAresta();
-        }
         
         aux->setProxAresta(nova_aresta);
-    }*/
+    }
 }
 
 Aresta* No::buscaAresta(int id_cauda, int id_cabeca){

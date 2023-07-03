@@ -241,16 +241,16 @@ vector<int> Grafo::reativo(float alpha, int numIter)
     return solucao;
 }
 
-void Grafo::insereNoInicio(int id, int peso)
+void Grafo::insereNoInicio(int id)
 {
-    No *no = new No(id, peso);
+    No *no = new No(id);
     no->setProxNo(this->primeiro_no);
     this->primeiro_no = no;
 }
 
-void Grafo::insereNoFim(int id, int peso)
+void Grafo::insereNoFim(int id)
 {
-    No *no = new No(id, peso);
+    No *no = new No(id);
     no->setProxNo(nullptr);
 
     if (this->primeiro_no == nullptr)
@@ -265,34 +265,29 @@ void Grafo::insereNoFim(int id, int peso)
     }
 }
 
-void Grafo::insereAresta(int id_cauda, int id_cabeca, int peso)
-{
+void Grafo::insereAresta(int id_cauda, int id_cabeca, int peso){
     No *cauda = encontrarNo(id_cauda);
     No *cabeca = encontrarNo(id_cabeca);
 
-    if (cauda == nullptr)
-    {
-        this->insereNoFim(id_cauda, peso);
-        cauda = encontrarNo(id_cauda); // atualiza cauda após a inserção
+    if(cauda == nullptr){
+        this->insereNoFim(id_cauda);
+        cauda = this->ultimo_no;
     }
-    if (cabeca == nullptr)
-    {
-        this->insereNoFim(id_cabeca, peso);
-        cabeca = encontrarNo(id_cabeca); // atualiza cabeça após a inserção
+    if(cabeca == nullptr){
+        this->insereNoFim(id_cabeca);
+        cabeca = this->ultimo_no;
     }
 
-    cauda->insereAresta(id_cabeca, peso);
+    cauda->insereAresta(id_cauda, id_cabeca, peso);
 
-    if (!this->getDigrafo())
-    {
-        cabeca->insereAresta(id_cauda, peso);
-        cauda->setGrau(cauda->getGrauNo() + 1);
+    if(!this->digrafo)
+        cabeca->insereAresta(id_cabeca, id_cauda, peso);
+
+    if(!this->getDigrafo()){
         cabeca->setGrau(cabeca->getGrauNo() + 1);
-        cauda->setPeso((cauda->getId() % 200) + 1);
-        cabeca->setPeso((cabeca->getId() % 200) + 1);
+        cauda->setGrau(cauda->getGrauNo() + 1);
     }
-    else
-    {
+    else{
         cabeca->setEntrada(cabeca->getEntrada() + 1);
         cauda->setSaida(cauda->getSaida() + 1);
     }
@@ -435,24 +430,20 @@ void Grafo::removeAresta(int id_cauda, int id_cabeca)
     }
 }
 
-void Grafo::imprime()
-{
+void Grafo::imprime(){
     No *no = this->primeiro_no;
 
-    if (no == nullptr)
-    {
+    if(no == nullptr){
         cout << "Grafo Vazio!" << endl;
         return;
     }
 
-    while (no != nullptr)
-    {
-        cout << "(" << no->getId() << ")"
-             << "peso:" << no->getPeso() << endl;
+    while (no != nullptr){
+        cout<<endl;
+        cout <<no->getId() <<"("<<no->getPeso()<< "):" << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         cout << " ";
-        while (aresta != nullptr)
-        {
+        while(aresta != nullptr ){
             cout << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
             aresta = aresta->getProxAresta();
         }
@@ -636,6 +627,67 @@ int Grafo::contAresta()
     }
 
     return cont / 2;
+}
+
+void Grafo::fechoTransitivoDireto(int id_no) {
+    No* no = encontrarNo(id_no);
+    if (no == nullptr) {
+        cout << "O nó informado não existe no grafo." << endl;
+        return;
+    }
+    vector<No> lista = this->listaNos();
+    // Marcar todos os nós como não visitados
+    unordered_map<No*, bool> visitado;
+    for (No& no : lista) {
+        visitado[&no] = false;
+    }
+
+    // Chamada recursiva da função auxiliar de DFS para o nó informado
+    cout << "Fecho Transitivo Direto a partir do nó " << id_no << ": "<<endl;
+    dfsFechoTransitivoDireto(no, visitado);
+
+    cout << endl;
+}
+
+void Grafo::dfsFechoTransitivoDireto(No* no, unordered_map<No*, bool>& visitado) {
+    // Marcar o nó atual como visitado
+    visitado[no] = true;
+    cout << no->getId() << " ";
+
+    // Percorrer todas as arestas do nó atual
+    for (Aresta* aresta = no->getPrimeiraAresta(); aresta != nullptr; aresta = aresta->getProxAresta()) {
+        No* proximoNo = encontrarNo(aresta->getIdCabeca());
+
+        // Se o nó adjacente não foi visitado, fazer a chamada recursiva
+        if (!visitado[proximoNo]) {
+            dfsFechoTransitivoDireto(proximoNo, visitado);
+        }
+    }
+}
+
+void Grafo::fechoTransitivoIndireto(int id) {
+    No* no = encontrarNo(id);
+    if (no == nullptr) {
+        // Nó não encontrado
+        return;
+    }
+
+    unordered_set<No*> visitado;
+    cout << "Fecho Transitivo indireto a partir do nó " << id << ": "<<endl;
+    dfsFechoTransitivoIndireto(no, visitado);
+
+    // Imprimir ou manipular o resultado, se necessário
+}
+
+void Grafo::dfsFechoTransitivoIndireto(No* no, unordered_set<No*>& visitado) {
+    visitado.insert(no);
+    cout << no->getId() << " ";
+    for (Aresta* aresta = no->getPrimeiraAresta(); aresta != nullptr; aresta = aresta->getProxAresta()) {
+        No* vizinho = encontrarNo(aresta->getIdCabeca());
+        if (vizinho != nullptr && visitado.find(vizinho) == visitado.end()) {
+            dfsFechoTransitivoIndireto(vizinho, visitado);
+        }
+    }
 }
 
 int *Grafo::seqDeGraus()

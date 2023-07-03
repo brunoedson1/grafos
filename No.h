@@ -18,7 +18,7 @@ class No{
 
     public:
         No();
-        No(int id, int peso);
+        No(int id);
         ~No();
         
 
@@ -38,7 +38,7 @@ class No{
         void setSaida(int grau);
         void setPeso(int peso);
 
-        void insereAresta(int id_cabeca, int peso_aresta);
+        void insereAresta(int id_cauda, int id_cabeca, int peso_aresta);
         Aresta *buscaAresta(int id_cauda, int id_cabeca);
         bool removeAresta(int id_cauda, int id_cabeca);
 

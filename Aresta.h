@@ -7,11 +7,11 @@ class Aresta{
     private:
         Aresta *proxima_aresta;
         int peso;
-        //int id_cauda;
+        int id_cauda;
         int id_cabeca;
         
     public:
-        Aresta(int id_cabeca, int peso);
+        Aresta(int id_cauda,int id_cabeca, int peso);
         //Aresta(Aresta *proxima_aresta, int id_cabeca, int id_cauda, float peso);
         ~Aresta();
 
