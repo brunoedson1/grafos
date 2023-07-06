@@ -5,12 +5,24 @@
 
 using namespace std;
 
+struct Visitados
+            {
+                int id;
+                bool visitado = false;
+                int d;
+                int low;
+                int pai=NULL;
+                bool articulacao = false;
+            };
+
 class Grafo{
     private:
         No *primeiro_no;
         No *ultimo_no;
         bool digrafo;
         vector<No*> lista_nos;
+        void auxArticulacao(No*,vector<Visitados>& ,int);
+        
 
     public:
         Grafo(bool digrafo);
@@ -19,10 +31,12 @@ class Grafo{
         void insereNoInicio(int id);
         void insereNoFim(int id);
         void insereAresta(int id_cauda, int id_cabeca, float peso);
+
         vector<No> listaNos();
+        bool independente(vector<No>);
         vector<int> guloso();
-        vector<int> randomizado(float,int);
-        vector<int> reativo(float,int);
+        vector<int> adaptativo(float,int);
+        vector<int> reativo(vector<float>,int,int);
         
         bool getDigrafo();
         int getGrauNo(int id); 
@@ -48,7 +62,11 @@ class Grafo{
 
         void vizinhancaAberta(int id);
         void vizinhancaFechada(int id);
-        bool independente(vector<No>);
+
+        void articulacao();
+
+
+        
 };
 
 #endif // GRAFO_H_INCLUDED
