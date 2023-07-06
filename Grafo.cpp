@@ -13,13 +13,11 @@
 
 using namespace std;
 
-Grafo::Grafo(bool digrafo, bool pVertice, bool pAresta)
+Grafo::Grafo(bool digrafo)
 {
     this->digrafo = digrafo;
     this->primeiro_no = nullptr;
     this->ultimo_no = nullptr;
-    ponderado_vertice = pVertice;
-    ponderado_aresta = pAresta;
     num_vertice = this->getOrdem();
 }
 
@@ -726,11 +724,6 @@ vector<No> Grafo::listaNos()
 {
     vector<No> listaNos;
     No *no = primeiro_no;
-    /*if(no == nullptr){
-        cout << "Grafo Vazio!" << endl;
-        return nullptr;
-    }*/
-
     while (no != nullptr)
     {
         listaNos.push_back(*no);
@@ -739,21 +732,11 @@ vector<No> Grafo::listaNos()
     return listaNos;
 }
 
-/*bool Grafo::comparaPeso(No &p, No &q)
-{
-    return (p.getValor() <= q.getValor());
-}*/
-
 vector<No> Grafo::ordenaLista()
 {
 
     vector<No> listaNos;
     No *no = primeiro_no;
-    /*if(no == nullptr){
-        cout << "Grafo Vazio!" << endl;
-        return;
-    }*/
-
     while (no != nullptr)
     {
         listaNos.push_back(*no);
@@ -763,6 +746,151 @@ vector<No> Grafo::ordenaLista()
          { return p.getValor() < q.getValor(); });
     return listaNos;
 }
+
+vector<int> Grafo::encontrarCentroDoGrafo() {
+   vector<int> verticesCentrais;
+    int grauMaximo = 0;
+
+    // Encontra o grau máximo dos vértices no grafo
+    for (No& no : listaNos()) {
+        if (no.getGrauNo() > grauMaximo) {
+            grauMaximo = no.getGrauNo();
+        }
+    }
+
+    // Percorre todos os vértices e verifica se seu grau é igual ao grau máximo
+    for (No& no : listaNos()) {
+        if (no.getGrauNo() == grauMaximo) {
+            verticesCentrais.push_back(no.getId());
+        }
+    }
+    return verticesCentrais;
+}
+
+vector<int> Grafo::calcularPeriferiaDoGrafo() {
+    vector<int> periferia;
+    int grauMinimo = INT_MAX;
+
+    // Encontra o grau mínimo dos vértices no grafo
+    for (No& no : listaNos()) {
+        if (no.getGrauNo() < grauMinimo) {
+            grauMinimo = no.getGrauNo();
+        }
+    }
+
+    // Percorre todos os vértices e verifica se seu grau é igual ao grau mínimo
+    for (No& no : listaNos()) {
+        if (no.getGrauNo() == grauMinimo) {
+            periferia.push_back(no.getId());
+        }
+    }
+
+    return periferia;
+}
+
+
+/*int Grafo::calcularExcentricidade(No& no) {
+    int excentricidadeMaxima = 0;
+
+    for (No& outroNo : listaNos()) {
+        int distancia = calcularDistancia(no, outroNo);
+        if (distancia > excentricidadeMaxima) {
+            excentricidadeMaxima = distancia;
+        }
+    }
+
+    return excentricidadeMaxima;
+}*/
+
+int Grafo::calcularDiametroDoGrafo() {
+    int diametro = 0;
+
+    for (No& no : listaNos()) {
+        int distanciaMaxima = calcularDistanciaMaxima(no);
+        if (distanciaMaxima > diametro) {
+            diametro = distanciaMaxima;
+        }
+    }
+
+    return diametro;
+}
+
+int Grafo::calcularDistanciaMaxima(No& noInicial) {
+    int distanciaMaxima = 0;
+    unordered_map<No*, int> distancia;
+
+    for (No& no : listaNos()) {
+        distancia[&no] = -1;
+    }
+
+    distancia[&noInicial] = 0;
+    queue<No*> fila;
+    fila.push(&noInicial);
+
+    while (!fila.empty()) {
+        No* no = fila.front();
+        fila.pop();
+
+        Aresta* aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr) {
+            No* vizinho = encontrarNo(aresta->getIdCabeca());
+
+            if (distancia[vizinho] == -1) {
+                distancia[vizinho] = distancia[no] + 1;
+                if (distancia[vizinho] > distanciaMaxima) {
+                    distanciaMaxima = distancia[vizinho];
+                }
+                fila.push(vizinho);
+            }
+
+            aresta = aresta->getProxAresta();
+        }
+    }
+
+    // Verifica se ainda há vértices com distância -1
+    for (No& no : listaNos()) {
+        if (distancia[&no] == -1) {
+            return INT_MAX; // Grafo desconexo, retorna infinito
+        }
+    }
+
+    return distanciaMaxima;
+}
+
+void Grafo::apresentarSubgrafoInduzido(const vector<int>& vertices) {
+    // Cria um novo grafo para armazenar o subgrafo induzido
+    Grafo subgrafo(false);
+
+    // Adiciona os vértices do conjunto ao subgrafo
+    for (int id : vertices) {
+        subgrafo.insereNoInicio(id);
+    }
+
+    // Percorre os vértices do conjunto para adicionar as arestas correspondentes ao subgrafo
+    for (int id : vertices) {
+        No* no = encontrarNo(id);
+
+        if (no != nullptr) {
+            Aresta* aresta = no->getPrimeiraAresta();
+
+            while (aresta != nullptr) {
+                int idDestino = aresta->getIdCabeca();
+
+                // Verifica se o vértice de destino também pertence ao conjunto
+                if (std::find(vertices.begin(), vertices.end(), idDestino) != vertices.end()) {
+                    subgrafo.insereAresta(id, idDestino, aresta->getPeso());
+                }
+
+                aresta = aresta->getProxAresta();
+            }
+        }
+    }
+
+    // Imprime o subgrafo induzido
+    subgrafo.imprime();
+}
+
+
 
 /*vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca)
 {
@@ -879,7 +1007,7 @@ vector<int> Grafo::floydWarshall(int id_calda, int id_cabeca)
     }
     return caminho;
 }
-
+*/
 void Grafo::vizinhoAberta(int id)
 {
     No *no = encontrarNo(id);
@@ -926,4 +1054,4 @@ void Grafo::vizinhoFechada(int id)
     cout << endl;
 
     return;
-}*/
+}

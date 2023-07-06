@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include "Grafo.h"
 #include <cmath>
 #include "Aresta.h"
@@ -18,7 +19,7 @@ Grafo *ler(ifstream &entrada)
     int aux2;
     float peso;
     bool digrafo = false;
-    Grafo *grafo = new Grafo(digrafo, true, true);
+    Grafo *grafo = new Grafo(digrafo);
 
     entrada >> ordem_grafo >> aux2;
 
@@ -37,14 +38,13 @@ int main(int argc, char const *argv[])
     ifstream entrada;
     ofstream saida;
     bool digrafo = false;
-    Grafo *grafo = new Grafo(digrafo, true, true);
+    Grafo *grafo = new Grafo(digrafo);
 
     if (argc != 6)
     {
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
         return 5;
     }
-
 
     entrada.open(argv[1], ios::in);
     saida.open(argv[2], ios::out | ios::trunc);
@@ -75,19 +75,89 @@ int main(int argc, char const *argv[])
         no = no->getProxNo();
     }
 
-    ;
+    int escolha = 0;
+    int noh;
+    bool sair = false;
 
-    /*for (auto &no : grafo->ordenaLista())
-    {   
-        cout<< "no: " << no.getId()<<" valor: "  << no.getValor() << endl;
-        cout  << " " <<endl;
-    }*/
+    while (!sair)
+    {
 
-    //grafo->randomizado(0.5,20);
-    //cout<<"multigrafo: "<<grafo->ehMultiGrafo();
-    grafo->fechoTransitivoIndireto(2);
-    grafo->imprime();
-    
+        cout << "Menu:" << endl;
+        cout << "[1] - Vizinhanca aberta de um no" << endl;
+        cout << "[2] - Vizinhanca fechada de um no" << endl;
+        cout << "[3] - Verificar se e bipartido" << endl;
+        cout << "[4] - Fecho transitivo direto de um no" << endl;
+        cout << "[5] - Fecho transitivo indireto de um no" << endl;
+        cout << "[6] - Subgrafo induzido por um conjunto de vertices" << endl;
+        /*cout << "2. Função 2" << endl;
+        cout << "2. Função 2" << endl;
+        cout << "2. Função 2" << endl;
+        cout << "2. Função 2" << endl;
+        cout << "2. Função 2" << endl;
+
+        cout << "0. Sair" << endl;*/
+        cout << "Escolha uma opcao: ";
+        cin >> escolha;
+
+        // Executa a função correspondente à escolha do usuário
+        switch (escolha)
+        {
+        case 0:
+            sair = true;
+            break;
+        case 1:
+            cout << "Informe o no: ";
+            cin >> noh;
+            grafo->vizinhoAberta(noh);
+            break;
+        case 2:
+            cout << "Informe o no: ";
+            cin >> noh;
+            grafo->vizinhoFechada(noh);
+            break;
+        case 3:
+            if (grafo->ehBipartido())
+            {
+                cout << "O grafo eh bipartido" << endl;
+            }
+            else
+            {
+                cout << "O grafo nao eh bipartido" << endl;
+            };
+        case 4:
+            cout << "Informe o no: ";
+            cin >> noh;
+            grafo->fechoTransitivoDireto(noh);
+            break;
+        case 5:
+            cout << "Informe o no: ";
+            cin >> noh;
+            grafo->fechoTransitivoIndireto(noh);
+            break;
+
+        case 6:
+            vector<int> vertices;
+            int ent;
+            cout << "Informe os vertices (envie '0' para sair):" << endl;
+            while (true)
+            {
+               cin >> ent;
+
+                    if (ent == 0)
+                    {
+                        break; // Sai do loop se o número for zero
+                    }
+
+                    vertices.push_back(ent);
+            }
+            grafo->apresentarSubgrafoInduzido(vertices);
+            break;
+            // Adicione mais cases para cada função disponível
+            /*default:
+               cout << "Opção inválida. Tente novamente." <<endl;
+                break;*/
+        }
+    }
 
     entrada.close();
     saida.close();

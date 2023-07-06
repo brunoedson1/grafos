@@ -22,7 +22,7 @@ class Grafo{
         vector<No*> lista_nos; 
 
     public:
-        Grafo(bool digrafo, bool pVertice, bool pAresta);
+        Grafo(bool digrafo);
         ~Grafo();
 
         void insereNoInicio(int id);
@@ -61,13 +61,21 @@ class Grafo{
         // vector<int> dijkstra(int id_calda, int id_cabeca);
         // vector<int> floydWarshall(int id_calda, int id_cabeca);
 
-        // void vizinhancaAberta(int id);
-        // void vizinhancaFechada(int id);
+        void vizinhoAberta(int id);
+        void vizinhoFechada(int id);
         void fechoTransitivoDireto(int id_no);
         void dfsFechoTransitivoDireto(No* no, unordered_map<No*, bool>& visitado);
         void fechoTransitivoIndireto(int id);
         void dfsFechoTransitivoIndireto(No* no, unordered_set<No*>& visitado);
+        vector<int> encontrarCentroDoGrafo();
         vector<No> ordenaLista();
+        //int calcularRaioDoGrafo();
+        int calcularDiametroDoGrafo();
+        int calcularExcentricidade(No& no);
+        int calcularDistanciaMaxima(No& noInicial);
+        vector<int> calcularPeriferiaDoGrafo();
+        void apresentarSubgrafoInduzido(const vector<int>& vertices);
+
 };
 
 #endif // GRAFO_H_INCLUDED
