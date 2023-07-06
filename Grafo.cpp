@@ -802,18 +802,6 @@ vector<int> Grafo::calcularPeriferiaDoGrafo() {
     return excentricidadeMaxima;
 }*/
 
-int Grafo::calcularDiametroDoGrafo() {
-    int diametro = 0;
-
-    for (No& no : listaNos()) {
-        int distanciaMaxima = calcularDistanciaMaxima(no);
-        if (distanciaMaxima > diametro) {
-            diametro = distanciaMaxima;
-        }
-    }
-
-    return diametro;
-}
 
 int Grafo::calcularDistanciaMaxima(No& noInicial) {
     int distanciaMaxima = 0;
@@ -1055,3 +1043,76 @@ void Grafo::vizinhoFechada(int id)
 
     return;
 }
+
+/*void Grafo::articulacao()
+{
+    vector<Visitados> v{getOrdem()};
+    auto it = v.begin();
+    int t=0;
+    for (No no : listaNos())
+    {
+        it->id=no.getId();
+        ++it;
+    }
+    
+    
+ 
+    auxArticulacao(primeiro_no,v,t);
+
+    for (auto no : v)
+    {
+        if (no.articulacao)
+        {
+            cout<<no.id<<" ";
+        }
+        
+    }
+    cout<<endl;
+
+}
+
+void Grafo::auxArticulacao(No* no, vector<Visitados> &v, int t)
+{
+
+    v[t].visitado = true;
+    v[t].d=t+1;
+    v[t].low = v[t].d;
+    int filho = 0;
+    for(Aresta *aresta = no->getPrimeiraAresta(); aresta!=nullptr; aresta = aresta->getProxAresta())
+    {
+        auto it = find_if(v.begin(),v.end(),[&](Visitados p)
+        {
+            return p.id == aresta->getIdCabeca();            
+        });
+        
+        if(!(it->visitado))
+        {
+            filho++;
+            it->pai = no->getId();
+            No *nofilho = encontrarNo(it->id);
+            auxArticulacao(nofilho,v,t+1);
+            if (it->low<v[t].low)
+            {
+                v[t].low=it->low;
+            }
+            if (v[t].pai==NULL && filho>1)
+            {
+                v[t].articulacao = true;   
+            }
+            if (v[t].pai!=NULL && it->low>=v[t].d)
+            {
+                v[t].articulacao = true;
+            }
+            
+        } else if (v[t].pai != it->id)
+        {
+            if (it->d<v[t].low)
+            {
+                v[t].low=it->d;
+            }
+            
+        }
+        
+    }
+
+}*/

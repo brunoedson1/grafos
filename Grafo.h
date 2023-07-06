@@ -70,11 +70,14 @@ class Grafo{
         vector<int> encontrarCentroDoGrafo();
         vector<No> ordenaLista();
         //int calcularRaioDoGrafo();
-        int calcularDiametroDoGrafo();
+        //int calcularDiametroDoGrafo();
         int calcularExcentricidade(No& no);
         int calcularDistanciaMaxima(No& noInicial);
         vector<int> calcularPeriferiaDoGrafo();
         void apresentarSubgrafoInduzido(const vector<int>& vertices);
+        //void auxArticulacao(No* no, vector<Visitados> &v, int t);
+        //void articulacao();
+
 
 };
 

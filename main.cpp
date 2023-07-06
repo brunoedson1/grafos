@@ -78,7 +78,8 @@ int main(int argc, char const *argv[])
     int escolha = 0;
     int noh;
     bool sair = false;
-
+    vector<int> vertices;
+    int ent;
     while (!sair)
     {
 
@@ -89,17 +90,22 @@ int main(int argc, char const *argv[])
         cout << "[4] - Fecho transitivo direto de um no" << endl;
         cout << "[5] - Fecho transitivo indireto de um no" << endl;
         cout << "[6] - Subgrafo induzido por um conjunto de vertices" << endl;
-        /*cout << "2. Função 2" << endl;
-        cout << "2. Função 2" << endl;
-        cout << "2. Função 2" << endl;
-        cout << "2. Função 2" << endl;
-        cout << "2. Função 2" << endl;
+        cout << "[7] ????????" << endl; /*para digrafos, apresentar as componentes fortemente
+ conexas;*/
+        cout << "[8] ????????" << endl; /*verificar se o grafo é eulerianos;*/
+        cout << "[9] Nos de articulacao" << endl;
+        cout << "[10] ????????" << endl; /*apresentar as arestas ponte;*/
+        cout << "[11] - Centro e Periferia do grafo" << endl;
+        cout << "[12] ????????" << endl; /*Apresentar a AGM do grafo ou, para grafos
+desconexos, as florestas de custo mínimo;*/
+        cout << "[13] ????????" << endl; /*Apresentar o caminho mínimo entre dois vértices
+ usando o algoritmo de Dijkstra ou de Floyd (escolha do
+ usuário).*/
 
-        cout << "0. Sair" << endl;*/
+        cout << "[0] - Sair" << endl;
         cout << "Escolha uma opcao: ";
         cin >> escolha;
 
-        // Executa a função correspondente à escolha do usuário
         switch (escolha)
         {
         case 0:
@@ -124,6 +130,7 @@ int main(int argc, char const *argv[])
             {
                 cout << "O grafo nao eh bipartido" << endl;
             };
+            break;
         case 4:
             cout << "Informe o no: ";
             cin >> noh;
@@ -136,26 +143,36 @@ int main(int argc, char const *argv[])
             break;
 
         case 6:
-            vector<int> vertices;
-            int ent;
+            
             cout << "Informe os vertices (envie '0' para sair):" << endl;
             while (true)
             {
-               cin >> ent;
+                cin >> ent;
 
-                    if (ent == 0)
-                    {
-                        break; // Sai do loop se o número for zero
-                    }
+                if (ent == 0)
+                {
+                    break; // Sai do loop se o número for zero
+                }
 
-                    vertices.push_back(ent);
+                vertices.push_back(ent);
             }
             grafo->apresentarSubgrafoInduzido(vertices);
             break;
+        case 11:
+            for (int a : grafo->encontrarCentroDoGrafo())
+            {
+                cout << "Centro do Grafo: " << a << endl;
+            }
+            for (int a : grafo->calcularPeriferiaDoGrafo())
+            {
+                cout << "Periferia do Grafo: " << a << endl;
+            }
+
+            break;
             // Adicione mais cases para cada função disponível
-            /*default:
-               cout << "Opção inválida. Tente novamente." <<endl;
-                break;*/
+        default:
+            cout << "Opção inválida. Tente novamente." <<endl;
+        break;
         }
     }
 
