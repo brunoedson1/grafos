@@ -18,12 +18,13 @@ Grafo *ler(ifstream &entrada){
     Grafo *grafo = new Grafo(digrafo);
 
     entrada >> ordem_grafo >> e;
-    cout << "A ordem do grafo e: " << ordem_grafo << endl;
+    cout << "A ordem do grafo e: " << ordem_grafo << endl << endl;
 
     while(entrada >> e >> id_cauda >> id_cabeca)
         grafo->insereAresta(id_cauda, id_cabeca, 0);
 
     grafo->imprime();
+    grafo->imprimeGrauNo(5);
     delete e;
     return grafo;
 }

@@ -33,7 +33,8 @@ class Grafo{
         
         void removeNo(int id);
         void removeAresta(int id_cauda, int id_cabeca);
-        void imprime(); 
+        void imprime();
+        void imprimeGrauNo(int id);
         bool trivial(); 
         bool nulo();
         bool ehMultiGrafo();

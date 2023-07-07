@@ -36,6 +36,10 @@ int No::getPeso()                   {return this->peso;}
 Aresta *No::getPrimeiraAresta()     {return this->primeira_aresta;}
 
 
+/* int No::retornaGrauNo(int id){
+    
+} */
+
 void No::insereAresta(int id_cauda, int id_cabeca, float peso){
     Aresta *nova_aresta = new Aresta(id_cauda, id_cabeca, peso);
 
