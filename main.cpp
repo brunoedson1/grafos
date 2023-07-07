@@ -42,6 +42,11 @@ Grafo *ler(ifstream &entrada)
         cout << "Grafo não é k-regular" << endl << endl;
     }
 
+    if(grafo->grafoCompleto())
+        cout << "Grafo completo" << endl << endl;
+    else
+        cout << "Grafo não é completo" << endl << endl;
+        
     delete e;
     return grafo;
 }
