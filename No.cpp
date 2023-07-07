@@ -7,6 +7,7 @@ using namespace std;
 No::No(){
     this->primeira_aresta = nullptr;
     this->proximo_no = nullptr;
+    
 }
 
 No::No(int id){
@@ -14,29 +15,26 @@ No::No(int id){
     this->grau = 0;
     this->primeira_aresta = nullptr;
     this->proximo_no = nullptr;
+    this->peso = id%200 + 1;
 }
 
 No::~No(){}
 
-void No::setProxNo(No *proximo){
-    this->proximo_no = proximo;
-}
+void No::setProxNo(No *proximo)     {this->proximo_no = proximo;}
+void No::setId(int id)              {this->id = id;}
+void No::setGrau(int grau)          {this->grau = grau;}
+void No::setEntrada(int grau)       {this->grau_entrada = grau;}
+void No::setSaida(int grau)         {this->grau_saida = grau;}
+void No::setPeso(int peso)          {this->peso=peso;}
 
-No *No::getProxNo(){
-    return this->proximo_no;
-}
+No *No::getProxNo()                 {return this->proximo_no;}
+int No::getId()                     {return this->id;}
+int No::getGrauNo()                 {return this->grau;}
+int No::getEntrada()                {return this->grau_entrada;}
+int No::getSaida()                  {return this->grau_saida;}
+int No::getPeso()                   {return this->peso;}
+Aresta *No::getPrimeiraAresta()     {return this->primeira_aresta;}
 
-int No::getId(){
-    return this->id;
-}
-
-void No::setId(int id){
-    this->id = id;
-}
-
-Aresta *No::getPrimeiraAresta(){
-    return this->primeira_aresta;
-}
 
 void No::insereAresta(int id_cauda, int id_cabeca, float peso){
     Aresta *nova_aresta = new Aresta(id_cauda, id_cabeca, peso);
@@ -105,26 +103,4 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
     return true;
 }
 
-int No::getGrauNo(){
-    return this->grau;
-}
-
-int No::getEntrada(){
-    return this->grau_entrada;
-}
-
-int No::getSaida(){
-    return this->grau_saida;
-}
-
-void No::setGrau(int grau){
-    this->grau = grau;
-}
-
-void No::setEntrada(int grau){
-    this->grau_entrada = grau;
-}
-
-void No::setSaida(int grau){
-    this->grau_saida = grau;
-}
+bool No::operator==(No no1)       {return (this->id == no1.id);}
