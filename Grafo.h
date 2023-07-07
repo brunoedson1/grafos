@@ -34,7 +34,9 @@ class Grafo{
         void removeNo(int id);
         void removeAresta(int id_cauda, int id_cabeca);
         void imprime();
-        void imprimeGrauNo(int id);
+        int retornaGrauNo(int id);
+        bool todosElementosIguais(const vector<int> &grausNosGrafo);
+        bool verificaKRegularidade(int k);
         bool trivial(); 
         bool nulo();
         bool ehMultiGrafo();

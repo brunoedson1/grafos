@@ -449,7 +449,6 @@ void Grafo::imprime()
         cout << no->getId() << "(" << no->getPeso() << "):" << endl;
         Aresta *aresta = no->getPrimeiraAresta();
         cout << " ";
-        int cont = 0;
         while (aresta != nullptr)
         {
             cout << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
@@ -459,25 +458,75 @@ void Grafo::imprime()
 
         no = no->getProxNo();
     }
-    cout << endl << endl;
+    cout << endl
+         << endl;
 }
 
-void Grafo::imprimeGrauNo(int id)
+int Grafo::retornaGrauNo(int id)
 {
     No *no = this->encontrarNo(id);
-
-    cout << "No escolhido: " << no->getId() << "(" << no->getPeso() << "):" << endl;
-    Aresta *aresta = no->getPrimeiraAresta();
-    int cont = 0;
-    while (aresta != nullptr)
+    if (no)
     {
-        cout << aresta->getIdCabeca() << " (" << aresta->getPeso() << "), ";
-        aresta = aresta->getProxAresta();
-        cont++;
+        Aresta *aresta = no->getPrimeiraAresta();
+        int cont = 0;
+        while (aresta != nullptr)
+        {
+            aresta = aresta->getProxAresta();
+            cont++;
+        }
+        return cont;
     }
-    cout << endl;
-    cout << "Grau do no " << id << ": "<< cont;
-    cout << endl << endl;
+    else
+    {
+        cout << "No não encontrado!" << endl;
+        exit(1);
+    }
+}
+
+/* bool Grafo::todosElementosIguais(const std::vector<int> &grausNosGrafo)
+{
+    if (grausNosGrafo.empty())
+    {
+        return true;
+    }
+
+    int primeiroElemento = grausNosGrafo[0];
+    for (size_t i = 1; i < grausNosGrafo.size(); i++)
+    {
+        if (grausNosGrafo[i] != primeiroElemento)
+        {
+            return false;
+        }
+    }
+
+    return true;
+} */
+
+bool Grafo::verificaKRegularidade(int k)
+{
+    std::vector<int> vetorGraus;
+    No *no = this->primeiro_no;
+
+    if (no == nullptr)
+    {
+        cout << "Grafo Vazio!" << endl;
+        exit(1);
+    }
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            int grauNo = retornaGrauNo(no->getId());
+            if (grauNo != k)
+                return false;
+            aresta = aresta->getProxAresta();
+        }
+        no = no->getProxNo();
+    }
+
+    return true;
 }
 
 bool Grafo::trivial()

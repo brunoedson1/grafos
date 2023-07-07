@@ -9,7 +9,8 @@
 
 using namespace std;
 
-Grafo *ler(ifstream &entrada){
+Grafo *ler(ifstream &entrada)
+{
     int ordem_grafo;
     int id_cauda;
     int id_cabeca;
@@ -18,24 +19,42 @@ Grafo *ler(ifstream &entrada){
     Grafo *grafo = new Grafo(digrafo);
 
     entrada >> ordem_grafo >> e;
-    cout << "A ordem do grafo e: " << ordem_grafo << endl << endl;
+    cout << "A ordem do grafo e: " << ordem_grafo << endl
+         << endl;
 
-    while(entrada >> e >> id_cauda >> id_cabeca)
+    while (entrada >> e >> id_cauda >> id_cabeca)
         grafo->insereAresta(id_cauda, id_cabeca, 0);
 
     grafo->imprime();
-    grafo->imprimeGrauNo(5);
+
+    int indice_no = 5;
+    cout << "Grau do no " << indice_no << ": " << grafo->retornaGrauNo(indice_no) << endl
+         << endl;
+
+    int k = 4;
+
+    if (grafo->verificaKRegularidade(k))
+    {
+        cout << "Grafo é " << k << "-regular" << endl << endl;
+    }
+    else
+    {
+        cout << "Grafo não é k-regular" << endl << endl;
+    }
+
     delete e;
     return grafo;
 }
 
-int main(int argc, char const *argv[]){
+int main(int argc, char const *argv[])
+{
     ifstream entrada;
     ofstream saida;
     bool digrafo = false;
     Grafo *grafo = new Grafo(digrafo);
 
-    if (argc != 6){
+    if (argc != 6)
+    {
         cout << "ERRO: Esperado: <nome_programa> <arquivo_entrada> <arquivo_saida>" << endl;
         return 1;
     }
@@ -43,19 +62,17 @@ int main(int argc, char const *argv[]){
     entrada.open(argv[1], ios::in);
     saida.open(argv[2], ios::out | ios::trunc);
 
-    if(entrada.is_open())
-        grafo = ler(entrada);   
+    if (entrada.is_open())
+        grafo = ler(entrada);
     else
         cout << "Não foi possível abrir o arquivo " << argv[1] << endl;
-    
 
     entrada.close();
     saida.close();
 
-       
     grafo->guloso();
-    grafo->randomizado(0.5,5);
-    grafo->reativo(0.5,5);
+    grafo->randomizado(0.5, 5);
+    grafo->reativo(0.5, 5);
     delete grafo;
 
     return 0;
