@@ -38,7 +38,7 @@ class No{
         void insereAresta(int id_cauda, int id_cabeca, float peso);
         Aresta *buscaAresta(int id_cauda, int id_cabeca);
         bool removeAresta(int id_cauda, int id_cabeca);
-        bool operator==(No no1);
+        
 
 };
 

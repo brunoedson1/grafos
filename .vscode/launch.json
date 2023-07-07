@@ -8,12 +8,13 @@
           "name": "(gdb) Launch",
           "type": "cppdbg",
           "request": "launch",
-          "program": "${workspaceFolder}/grupo14",
-          "args": ["entrada.txt", "saida.txt", "0", "0", "1"],
+          "program": "${workspaceFolder}/execGrupo14.exe",
+          "preLaunchTask": "build",
+          "args": ["entrada2.txt", "saida.txt", "0", "0", "1"],
           "stopAtEntry": false,
           "cwd": "${workspaceFolder}",
           "environment": [],
-          "externalConsole": false,
+          "externalConsole": true,
           "MIMode": "gdb",
           "setupCommands": [
               {

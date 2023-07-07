@@ -102,5 +102,3 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
     aresta = nullptr;
     return true;
 }
-
-bool No::operator==(No no1)       {return (this->id == no1.id);}

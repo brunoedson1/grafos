@@ -52,10 +52,14 @@ int main(int argc, char const *argv[]){
     saida.close();
 
        
-    grafo->guloso();
-    grafo->randomizado(0.5,5);
-    grafo->reativo(0.5,5);
+    // grafo->guloso();
+    // grafo->randomizado(0.5,10);
+    // grafo->reativo(0.5,10);
+    grafo->ponte();
+    
     delete grafo;
 
     return 0;
 }
+
+

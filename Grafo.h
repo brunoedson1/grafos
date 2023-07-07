@@ -9,7 +9,7 @@ struct Visitados
             {
                 int id;
                 bool visitado = false;
-                int d;
+                int disctime;
                 int low;
                 int pai=NULL;
                 bool articulacao = false;
@@ -21,7 +21,7 @@ class Grafo{
         No *ultimo_no;
         bool digrafo;
         vector<No*> lista_nos;
-        void auxArticulacao(No*,vector<Visitados>& ,int);
+        void auxArticulacao(No*,vector<Visitados>& ,int&);
         
 
     public:
@@ -64,6 +64,7 @@ class Grafo{
         void vizinhancaFechada(int id);
 
         void articulacao();
+        void ponte();
 
 
         

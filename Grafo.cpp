@@ -200,118 +200,118 @@ vector<int> Grafo::reativo(vector<float> alpha, int numIter,int bloco)
 
 {
     vector<int> solucao;
+    vector<No> solBest, sol;
     vector<int> probabilidade{alpha.size()};
 
-    vector<No> solBest, sol;
-    int k, somaSol, somaSolbest;
-    vector<No> candidatos;
-    int n;
-    int m;
-    for (int i = 1; i <= numIter; i++)
-    {
-        if(i%bloco==0)
-        {
-            
-        }
-        cout << "i: " << i << endl;
-        candidatos = listaNos();
-        sort(candidatos.begin(), candidatos.end(), [](No &p, No &q)
-             { return p.getPeso() / p.getGrauNo() < q.getPeso() / q.getGrauNo(); });
+    // int k, somaSol, somaSolbest;
+    // vector<No> candidatos;
+    // int n;
+    // int m;
+    // for (int i = 1; i <= numIter; i++)
+    // {
+    //     if(i%bloco==0)
+    //     {
 
-        while (!independente(candidatos) || candidatos.empty())
-        {
+    //     }
+    //     cout << "i: " << i << endl;
+    //     candidatos = listaNos();
+    //     sort(candidatos.begin(), candidatos.end(), [](No &p, No &q)
+    //          { return p.getPeso() / p.getGrauNo() < q.getPeso() / q.getGrauNo(); });
 
-            k = rand() % int(alpha * candidatos.size());
-            sol.push_back(candidatos[k]);
-            cout << candidatos[k].getId()<<" ";
-            candidatos.erase(candidatos.begin() + k);
+    //     while (!independente(candidatos) || candidatos.empty())
+    //     {
 
-            for (auto it = candidatos.begin(); it != candidatos.end();)
-            {
-                n = 0;
-                for (No &no : sol)
-                {
+    //         k = rand() % int(alpha*candidatos.size());
+    //         sol.push_back(candidatos[k]);
+    //         cout << candidatos[k].getId()<<" ";
+    //         candidatos.erase(candidatos.begin() + k);
 
-                    if (no.buscaAresta(no.getId(), it->getId()))
-                    {
-                        n += 1;
-                    }
-                }
-                if (it->getGrauNo() - n == 0)
-                {
-                    it = candidatos.erase(it);
-                }
-                else
-                {
-                    ++it;
-                }
-            }
+    //         for (auto it = candidatos.begin(); it != candidatos.end();)
+    //         {
+    //             n = 0;
+    //             for (No &no : sol)
+    //             {
 
-            if (candidatos.empty())
-            {
-                break;
-            }
-            sort(candidatos.begin(), candidatos.end(), [&](No &p, No &q)
-                {
-                    n = 0;
-                    m = 0;
-                    for (No &no : sol)
-                    {
+    //                 if (no.buscaAresta(no.getId(), it->getId()))
+    //                 {
+    //                     n += 1;
+    //                 }
+    //             }
+    //             if (it->getGrauNo() - n == 0)
+    //             {
+    //                 it = candidatos.erase(it);
+    //             }
+    //             else
+    //             {
+    //                 ++it;
+    //             }
+    //         }
+
+    //         if (candidatos.empty())
+    //         {
+    //             break;
+    //         }
+    //         sort(candidatos.begin(), candidatos.end(), [&](No &p, No &q)
+    //             {
+    //                 n = 0;
+    //                 m = 0;
+    //                 for (No &no : sol)
+    //                 {
                     
-                        if (no.buscaAresta(no.getId(), p.getId()))
-                        {
-                            n += 1;
-                        }
-                        if (no.buscaAresta(no.getId(), q.getId()))
-                        {
-                            m += 1;
-                        }
-                    }
+    //                     if (no.buscaAresta(no.getId(), p.getId()))
+    //                     {
+    //                         n += 1;
+    //                     }
+    //                     if (no.buscaAresta(no.getId(), q.getId()))
+    //                     {
+    //                         m += 1;
+    //                     }
+    //                 }
                     
                     
-                    return p.getPeso() / (p.getGrauNo() - n) < q.getPeso() / (q.getGrauNo() - m); 
-                });
-        }
-        cout << "pass" << endl;
-        if (i == 0)
-        {
-            solBest = sol;
-        }
-        else
-        {
-            somaSol = 0;
-            somaSolbest = 0;
-            for (auto &No : sol)
-            {
-                somaSol += No.getPeso();
-            }
+    //                 return p.getPeso() / (p.getGrauNo() - n) < q.getPeso() / (q.getGrauNo() - m); 
+    //             });
+    //     }
+    //     cout << "pass" << endl;
+    //     if (i == 0)
+    //     {
+    //         solBest = sol;
+    //     }
+    //     else
+    //     {
+    //         somaSol = 0;
+    //         somaSolbest = 0;
+    //         for (auto &No : sol)
+    //         {
+    //             somaSol += No.getPeso();
+    //         }
 
-            for (auto &No : solBest)
-            {
-                somaSolbest += No.getPeso();
-            }
-            if (somaSol < somaSolbest)
-            {
-                solBest = sol;
-            }
-            cout << "somaSol: " << somaSol << " somaSolbest: " << somaSolbest << endl;
-        }
-        sol.erase(sol.begin(), sol.end());
-    }
+    //         for (auto &No : solBest)
+    //         {
+    //             somaSolbest += No.getPeso();
+    //         }
+    //         if (somaSol < somaSolbest)
+    //         {
+    //             solBest = sol;
+    //         }
+    //         cout << "somaSol: " << somaSol << " somaSolbest: " << somaSolbest << endl;
+    //     }
+    //     sol.erase(sol.begin(), sol.end());
+    // }
 
-    if (!solBest.empty())
-    {
-        cout << "Solucao guloso reativo:" << endl;
-        for (No &no : solBest)
-        {
-            solucao.push_back(no.getId());
-            cout << no.getId() << " ";
-        }
-        cout << endl;
-        return solucao;
-    }
-    cout << "Nao ha solucao" << endl;
-    return solucao;
+    // if (!solBest.empty())
+    // {
+    //     cout << "Solucao guloso reativo:" << endl;
+    //     for (No &no : solBest)
+    //     {
+    //         solucao.push_back(no.getId());
+    //         cout << no.getId() << " ";
+    //     }
+    //     cout << endl;
+    //     return solucao;
+    // }
+    // cout << "Nao ha solucao" << endl;
+    // return solucao;
 }
 
 void Grafo::insereNoInicio(int id)
@@ -891,12 +891,13 @@ void Grafo::articulacao()
 
 }
 
-void Grafo::auxArticulacao(No* no, vector<Visitados> &v, int t)
+void Grafo::auxArticulacao(No* no, vector<Visitados> &v, int& t)
 {
-
-    v[t].visitado = true;
-    v[t].d=t+1;
-    v[t].low = v[t].d;
+    int k= t;
+    auto& it_v=v[k];
+    v[k].visitado = true;
+    v[k].disctime=t+1;
+    v[k].low = v[k].disctime;
     int filho = 0;
     for(Aresta *aresta = no->getPrimeiraAresta(); aresta!=nullptr; aresta = aresta->getProxAresta())
     {
@@ -910,29 +911,64 @@ void Grafo::auxArticulacao(No* no, vector<Visitados> &v, int t)
             filho++;
             it->pai = no->getId();
             No *nofilho = encontrarNo(it->id);
-            auxArticulacao(nofilho,v,t+1);
-            if (it->low<v[t].low)
+            auxArticulacao(nofilho,v,t=t+1);
+            if (it->low<v[k].low)
             {
-                v[t].low=it->low;
+                v[k].low=it->low;
             }
-            if (v[t].pai==NULL && filho>1)
+            if (v[k].pai==NULL && filho>1)
             {
-                v[t].articulacao = true;   
+                v[k].articulacao = true;   
             }
-            if (v[t].pai!=NULL && it->low>=v[t].d)
+            if (v[k].pai!=NULL && it->low>=v[k].disctime)
             {
-                v[t].articulacao = true;
+                v[k].articulacao = true;
             }
             
-        } else if (v[t].pai != it->id)
+        } else if (v[k].pai != it->id)
         {
-            if (it->d<v[t].low)
+            if (it->disctime<v[k].low)
             {
-                v[t].low=it->d;
+                v[k].low=it->disctime;
             }
             
         }
         
     }
 
+}
+
+void Grafo::ponte()
+{
+    vector<Visitados> v{getOrdem()};
+    auto it = v.begin();
+    int t=0;
+    for (No no : listaNos())
+    {
+        it->id=no.getId();
+        ++it;
+    }
+    
+    auxArticulacao(primeiro_no,v,t);
+
+    for(auto filho : v)
+    {
+        if (filho.pai==NULL)
+        {
+            continue;
+        }else
+        {
+            it = find_if(v.begin(),v.end(),[&](Visitados p)
+            {
+                return p.id== filho.pai;
+            });
+            if (filho.low>it->disctime)
+            {
+                cout<<"("<<filho.pai<<","<<filho.id<<") ";
+            }
+            
+        }
+        
+    }
+    cout<<endl;
 }
