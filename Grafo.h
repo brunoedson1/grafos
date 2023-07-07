@@ -46,6 +46,8 @@ class Grafo{
         No *encontrarNo(int id);
         int *seqDeGraus();
 
+        bool verificaVisit(bool visitados[], int n);
+        void caminhoMinimoDijkstra(int, int);
         vector<int> dijkstra(int id_calda, int id_cabeca);
         vector<int> floydWarshall(int id_calda, int id_cabeca);
 

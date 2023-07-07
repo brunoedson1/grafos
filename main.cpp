@@ -47,6 +47,7 @@ Grafo *ler(ifstream &entrada)
     else
         cout << "Grafo não é completo" << endl << endl;
         
+    grafo->caminhoMinimoDijkstra(3,5);
     delete e;
     return grafo;
 }

@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include <queue>
 #include <limits>
+#include <stack>
+#include <climits>
 #include "Grafo.h"
 
 using namespace std;
@@ -710,6 +712,81 @@ int *Grafo::seqDeGraus()
         }
     }
     return sequencia;
+}
+
+bool Grafo::verificaVisit(bool visitados[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (!visitados[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void Grafo::caminhoMinimoDijkstra(int origem, int destino) {
+    No *p = encontrarNo(origem - 1);
+    No *q = encontrarNo(destino - 1);
+    No *aux;
+    int indice;
+
+    if (p == nullptr || q == nullptr) {
+        cout << "Os vértices de origem ou destino não existem no grafo." << endl;
+        return;
+    }
+
+    int n = lista_nos.size();
+    int distancias[n];
+    int antecessores[n];
+    bool visitados[n];
+
+    for (int i = 0; i < n; i++) {
+        distancias[i] = INT_MAX / 2;
+        antecessores[i] = -1;
+        visitados[i] = false;
+    }
+
+    distancias[p->getId()] = 0;
+    antecessores[p->getId()] = 0;
+
+    while (!verificaVisit(visitados, n)) {
+        int menor = -1;
+        for (int i = 0; i < n; i++) {
+            if (!visitados[i] && (menor == -1 || distancias[i] < distancias[menor])) {
+                menor = i;
+            }
+        }
+
+        if (menor == -1) {
+            break;
+        }
+
+        visitados[menor] = true;
+        No *no_atual = encontrarNo(menor);
+
+        Aresta *a = no_atual->getPrimeiraAresta();
+        while (a != nullptr) {
+            if (a->getPeso() >= 0) {
+                aux = encontrarNo(a->getIdCabeca());
+                indice = aux->getId();
+
+                if (distancias[indice] > distancias[menor] + a->getPeso()) {
+                    distancias[indice] = distancias[menor] + a->getPeso();
+                    antecessores[indice] = menor;
+                }
+            }
+
+            a = a->getProxAresta();
+        }
+    }
+
+    if (distancias[q->getId()] == INT_MAX / 2) {
+        cout << "Não existe caminho entre os vértices." << endl << endl;
+    } else {
+        cout << "Menor Caminho(Dijkstra) entre " << origem << " e " << destino << " : " << distancias[q->getId()] << endl << endl;
+    }
 }
 
 vector<int> Grafo::dijkstra(int id_cauda, int id_cabeca)
