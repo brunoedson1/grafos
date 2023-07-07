@@ -447,6 +447,28 @@ void Grafo::imprime()
     }
 }
 
+int Grafo::retornaGrauNo(int id)
+{
+    No *no = this->encontrarNo(id);
+    if (no)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        int cont = 0;
+        while (aresta != nullptr)
+        {
+            aresta = aresta->getProxAresta();
+            cont++;
+        }
+        return cont;
+    }
+    else
+    {
+        cout << "No não encontrado!" << endl;
+        exit(1);
+    }
+}
+
+
 bool Grafo::trivial()
 {
     No *no = this->primeiro_no;
