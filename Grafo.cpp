@@ -468,6 +468,34 @@ int Grafo::retornaGrauNo(int id)
     }
 }
 
+bool Grafo::verificaKRegularidade(int k)
+{
+    std::vector<int> vetorGraus;
+    No *no = this->primeiro_no;
+
+    if (no == nullptr)
+    {
+        cout << "Grafo Vazio!" << endl;
+        exit(1);
+    }
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            int grauNo = retornaGrauNo(no->getId());
+            if (grauNo != k)
+                return false;
+            aresta = aresta->getProxAresta();
+        }
+        no = no->getProxNo();
+    }
+
+    return true;
+}
+
+
 
 bool Grafo::trivial()
 {

@@ -25,6 +25,21 @@ Grafo *ler(ifstream &entrada){
 
     grafo->imprime();
 
+    int indice_no = 5;
+    cout << "Grau do no " << indice_no << ": " << grafo->retornaGrauNo(indice_no) << endl
+         << endl;
+
+    int k = 3;
+
+    if (grafo->verificaKRegularidade(k))
+    {
+        cout << "Grafo é " << k << "-regular" << endl << endl;
+    }
+    else
+    {
+        cout << "Grafo não é k-regular" << endl << endl;
+    }
+
     delete e;
     return grafo;
 }
