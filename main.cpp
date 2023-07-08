@@ -62,14 +62,8 @@ Grafo *ler(ifstream &entrada)
         cout << "Existe aresta " << idNo1 << "-" << idNo2 << endl << endl;
     else
         cout << "Aresta não existe no grafo" << endl << endl;
-    /* Aresta *aresta;
-    aresta = grafo->getArestaMenorPeso();
-    int no1 = aresta->getIdCauda();
-    int no2 = aresta->getIdCabeca();
-
-    cout << "Aresta de menor peso: " << no1 << " - " << no2 << endl << endl; */
     
-    // grafo->algoritmoPrim();
+    grafo->algoritmoPrim();
 
     delete e;
     return grafo;

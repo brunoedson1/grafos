@@ -185,7 +185,6 @@ void Grafo::algoritmoPrim()
                 prox[i-1] = u;
             else
                 prox[i-1] = v;
-
         }
     }
 }
