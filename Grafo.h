@@ -46,6 +46,13 @@ class Grafo{
         No *encontrarNo(int id);
         int *seqDeGraus();
 
+        int getNumeroArestas();
+        int getPesoAresta(int,int);
+        Aresta *getAresta(int,int);
+        Aresta *getArestaMenorPeso();
+        bool existeAresta(int,int);
+        void algoritmoPrim();
+        
         vector<int> dijkstra(int id_calda, int id_cabeca);
         vector<int> floydWarshall(int id_calda, int id_cabeca);
 

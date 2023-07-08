@@ -7,6 +7,7 @@
 #include <queue>
 #include <limits>
 #include "Grafo.h"
+#include <cmath>
 
 using namespace std;
 
@@ -58,6 +59,135 @@ bool Grafo::independente(vector<No> Nos)
     }
 
     return true;
+}
+
+bool Grafo::existeAresta(int id_cauda,int id_cabeca)
+{
+    No *no = this->primeiro_no;
+    No *no_aux;
+    int idNo = no->getId();
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        if(no->getId() == id_cauda){
+            while (aresta != nullptr)
+            {
+                if(aresta->getIdCabeca() == id_cabeca)
+                    return true;
+                aresta = aresta->getProxAresta();
+            }    
+        }
+        no = no->getProxNo();
+    }
+    return false;
+}
+
+int Grafo::getPesoAresta(int id_cauda,int id_cabeca)
+{    
+    if(existeAresta(id_cauda, id_cabeca))
+        return getAresta(id_cauda, id_cabeca)->getPeso();
+    else
+        return -1;
+}
+
+int Grafo::getNumeroArestas()
+{        
+    No *no = this->primeiro_no;
+    int numArestas = 0;
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            aresta = aresta->getProxAresta();
+            numArestas++;
+        }
+        no = no->getProxNo();
+    }
+    return numArestas;
+}
+
+Aresta *Grafo::getAresta(int id_cauda,int id_cabeca){
+    
+    No *no = this->primeiro_no;
+    if(existeAresta(id_cauda, id_cabeca)){
+        while (no != nullptr)
+        {
+            Aresta *aresta = no->getPrimeiraAresta();
+            while (aresta != nullptr)
+            {
+                if(aresta->getIdCauda() == id_cauda && aresta->getIdCabeca() == id_cabeca)
+                    return aresta;
+                aresta = aresta->getProxAresta();
+            }
+            no = no->getProxNo();
+        }
+    }
+    return nullptr;
+}
+
+Aresta *Grafo::getArestaMenorPeso()
+{
+    No *no = this->primeiro_no;
+    vector<int> todosPesosArestas;
+    int menorPeso = 0;
+
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            float pesoAresta = aresta->getPeso();
+            todosPesosArestas.push_back(pesoAresta);
+            aresta = aresta->getProxAresta();
+        }
+        no = no->getProxNo();
+    }
+
+    sort(todosPesosArestas.begin(), todosPesosArestas.end());    
+    menorPeso = todosPesosArestas[0];
+
+    no = this->primeiro_no;
+    
+    while (no != nullptr)
+    {
+        Aresta *aresta = no->getPrimeiraAresta();
+        while (aresta != nullptr)
+        {
+            if(aresta->getPeso() == menorPeso)
+                return aresta;
+            aresta = aresta->getProxAresta();
+        }
+        no = no->getProxNo();
+    }
+    return nullptr;
+}
+
+void Grafo::algoritmoPrim()
+{
+    No *no;
+    int numArestas = getNumeroArestas();
+    int numNos = getOrdem();
+    int prox[numNos];
+    Aresta *solucao[numArestas];
+    Aresta *aresta_atual = getArestaMenorPeso();
+    int u = aresta_atual->getIdCauda();
+    int v = aresta_atual->getIdCabeca();
+    solucao[0] = aresta_atual;
+    float inf = INFINITY;
+    for(int i = 1; i < numNos; i++){
+        if(existeAresta(i, u) && existeAresta(i, v)){
+            float peso1 = getAresta(i, u)->getPeso();
+            float peso2 = getAresta(i, v)->getPeso();
+            if(peso1 < peso2)
+                prox[i-1] = u;
+            else
+                prox[i-1] = v;
+
+        }
+    }
 }
 
 vector<int> Grafo::guloso()

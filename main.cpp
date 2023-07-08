@@ -7,6 +7,14 @@
 #include "Aresta.h"
 #include "No.h"
 
+#include <random>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+#include <limits>
+
 using namespace std;
 
 Grafo *ler(ifstream &entrada)
@@ -46,7 +54,23 @@ Grafo *ler(ifstream &entrada)
         cout << "Grafo completo" << endl << endl;
     else
         cout << "Grafo não é completo" << endl << endl;
-        
+
+    int idNo1 = 5;
+    int idNo2 = 6;
+
+    if(grafo->existeAresta(idNo1, idNo2))
+        cout << "Existe aresta " << idNo1 << "-" << idNo2 << endl << endl;
+    else
+        cout << "Aresta não existe no grafo" << endl << endl;
+    /* Aresta *aresta;
+    aresta = grafo->getArestaMenorPeso();
+    int no1 = aresta->getIdCauda();
+    int no2 = aresta->getIdCabeca();
+
+    cout << "Aresta de menor peso: " << no1 << " - " << no2 << endl << endl; */
+    
+    // grafo->algoritmoPrim();
+
     delete e;
     return grafo;
 }
