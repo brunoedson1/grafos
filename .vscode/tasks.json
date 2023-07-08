@@ -20,7 +20,7 @@
 			"type": "shell",
 			"label": "run",
 			"dependsOn": "build",
-			"command": ".\\execGrupo14.exe",
+			"command": "./execGrupo14.exe",
 			"args": [
 				"brock200_2.txt",
 				"saida.txt",

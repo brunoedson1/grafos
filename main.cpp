@@ -205,24 +205,19 @@ int main(int argc, char const *argv[]){
     float duracao;
 
     grafo->guloso();
-    cout<<endl;
+    cout << endl;
 
-    vector<float> alpha{0.05,0.1,0.15,0.3,0.5};
+    vector<float> alpha{0.05, 0.1, 0.15, 0.3, 0.5};
 
-    for (float a:alpha)
-    {   
-        cout<<"Alpha: "<<a<<endl;
-        grafo->adaptativo(a,500);
-        cout<<endl;
-    }
+    // for (float a:alpha)
+    // {   
+    //     cout<<"Alpha: "<<a<<endl;
+    //     grafo->adaptativo(a,500);
+    //     cout<<endl;
+    // }
     
-
     entrada.close();
     saida.close();
-
-
-   
-    
 
     return 0;
 }
