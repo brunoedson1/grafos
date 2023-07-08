@@ -2,6 +2,8 @@
 #define GRAFO_H_INCLUDED
 #include "No.h"
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,6 +36,7 @@ class Grafo{
 
         vector<No> listaNos();
         bool independente(vector<No>);
+        bool verificaVisit(bool visitados[], int n);
         vector<int> guloso();
         vector<int> adaptativo(float,int);
         vector<int> reativo(vector<float>,int,int);
@@ -57,11 +60,19 @@ class Grafo{
         No *encontrarNo(int id);
         int *seqDeGraus();
 
-        vector<int> dijkstra(int id_calda, int id_cabeca);
-        vector<int> floydWarshall(int id_calda, int id_cabeca);
+        void caminhoMinimoDijkstra(int origem, int destino);
+         void caminhoMinimoFloyd(int origem, int destino);
 
         void vizinhancaAberta(int id);
         void vizinhancaFechada(int id);
+        void fechoTransitivoDireto(int id_no);
+        void dfsFechoTransitivoDireto(No* no, unordered_map<No*, bool>& visitado);
+        void fechoTransitivoIndireto(int id);
+        void dfsFechoTransitivoIndireto(No* no, unordered_set<No*>& visitado);
+        void apresentarSubgrafoInduzido(const vector<int>& vertices);
+        vector<int> encontrarCentroDoGrafo();
+        vector<int> calcularPeriferiaDoGrafo();
+        int calcularDistanciaMaxima(No& noInicial);
 
         void articulacao();
         void ponte();

@@ -22,7 +22,7 @@
 			"dependsOn": "build",
 			"command": ".\\execGrupo14.exe",
 			"args": [
-				"entrada2.txt",
+				"brock200_2.txt",
 				"saida.txt",
 				"0",
 				"0",
