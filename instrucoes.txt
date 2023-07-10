@@ -1,0 +1,1 @@
+para rodar o progama basta executar o arquivo runScript.sh

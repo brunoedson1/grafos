@@ -9,7 +9,7 @@
 				"-g",
 				"*.cpp",
 				"-o",
-				"execGrupo14.exe"
+				"execGrupoX.exe"
 			],
 			"group": {
 				"kind": "build",
@@ -20,15 +20,37 @@
 			"type": "shell",
 			"label": "run",
 			"dependsOn": "build",
-			"command": ".\\execGrupo14.exe",
+			"command": ".\\execGrupoX.exe",
 			"args": [
-				"brock_2.txt",
+				"instancias\\brock200_2.txt",
 				"saida.txt",
 				"0",
 				"0",
-				"1"
+				"1",
+				"r"
 			],
 			"problemMatcher": []
+		},
+		{
+			"label": "Executar Script",
+			"type": "shell",
+			"command": "D:\\Program Files\\Git\\bin\\bash.exe",
+			"args": [
+			  ".\\runScript.sh"
+			],
+			"group": {
+			  "kind": "build",
+			  "isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+
 		}
 	]
 }
