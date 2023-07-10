@@ -20,7 +20,7 @@
 			"type": "shell",
 			"label": "run",
 			"dependsOn": "build",
-			"command": ".\\execGrupoX.exe",
+			"command": ".\\execGrupo14.exe",
 			"args": [
 				"instancias\\brock200_2.txt",
 				"saida.txt",
