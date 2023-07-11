@@ -98,7 +98,7 @@ bool No::removeAresta(int id_cauda, int id_cabeca){
         aresta_anteriror->setProxAresta(nullptr);
     else
         aresta_anteriror->setProxAresta(aresta->getProxAresta());
-    
+    this->grau-=1;
     aresta = nullptr;
     return true;
 }

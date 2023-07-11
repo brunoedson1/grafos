@@ -9,7 +9,7 @@
 				"-g",
 				"*.cpp",
 				"-o",
-				"execGrupoX.exe"
+				"execGrupo14.exe"
 			],
 			"group": {
 				"kind": "build",

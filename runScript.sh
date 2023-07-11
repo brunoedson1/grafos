@@ -2,7 +2,7 @@
 
 # Guloso, Guloso randomizado adaptativo e Guloso randomizado adaptativo reativo
 
-g++ -g *.cpp -o execGrupo14.exe
+g++ -g *.cpp -o execGrupoX.exe
 
 arquivos=(
     "instancias\brock200_2.txt" 
@@ -18,10 +18,10 @@ arquivos=(
 )
 
 
-for arquivo in "${arquivos[@]}"
-    do
-        .\\execGrupo14 "$arquivo" saida.txt 0 0 1 g
-    done
+# for arquivo in "${arquivos[@]}"
+#     do
+#         .\\execGrupo14 "$arquivo" saida.txt 0 0 1 g
+#     done
 
 
 # .\\execGrupo14 brock200_2.txt saida.txt 0 0 1 g &&
@@ -35,25 +35,29 @@ for arquivo in "${arquivos[@]}"
 # .\\execGrupo14 keller6.txt saida.txt 0 0 1 g &&
 # .\\execGrupo14 C4000.txt saida.txt 0 0 1 g
 
-alphas=(0.05 0.1 0.15 0.3 0.5)
-
+alphas=(
+        0.5
+        0.3 
+        0.15 
+        0.1 
+        0.05)
 for arquivo in "${arquivos[@]}"
     do
         for alpha in "${alphas[@]}"
             do
-                for ((i=0;i<10;i++))
+                for ((i=0;i<1;i++))
                     do
                         echo "$alpha"
-                        .\\execGrupo14 "$arquivo" saida.txt 0 0 1 a "$alpha"
+                        .\\execGrupoX "$arquivo" saida.txt 0 0 1 a "$alpha"
                     done
             done
     done
     
     
-for arquivo in "${arquivos[@]}"
-    do
-        for ((i=0;i<10;i++))
-            do
-                .\\execGrupo14 "$arquivo" saida.txt 0 0 1 r
-            done
-    done
+# for arquivo in "${arquivos[@]}"
+#     do
+#         for ((i=0;i<10;i++))
+#             do
+#                 .\\execGrupo14.exe "$arquivo" saida.txt 0 0 1 r
+#             done
+#     done

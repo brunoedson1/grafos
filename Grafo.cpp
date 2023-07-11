@@ -83,12 +83,12 @@ vector<int> Grafo::guloso()
     vector<No> candidatos = listaNos();
     sort(candidatos.begin(), candidatos.end(), [](No &p, No &q)
          { return p.getPeso() / p.getGrauNo() < q.getPeso() / q.getGrauNo(); });
+    vector<No> solucao;     
     vector<int> sol;
     int soma = 0;
     while (!independente(candidatos))
     {
-        sol.push_back(candidatos[0].getId());
-        soma+=candidatos[0].getPeso();
+        solucao.push_back(candidatos[0]);
         candidatos.erase(candidatos.begin());
         if (candidatos.empty())
         {
@@ -98,15 +98,17 @@ vector<int> Grafo::guloso()
     }
     fim_guloso = clock();
     duracao = static_cast<float>(fim_guloso - inicio_guloso) / CLOCKS_PER_SEC;
-    if (!sol.empty())
+    if (!solucao.empty())
     {
         
         cout << "Solucao guloso:" << endl;
-        // for (int c : sol)
-        // {   
-        //     cout << c << " ";
-        // }
-        // cout << endl;
+        for (auto c : solucao)
+        {   
+            soma+=c.getPeso();
+            sol.push_back(c.getId());
+            // cout << c.getId() << " ";
+        }
+        cout << endl;
         cout<<"Peso: "<<soma<<endl;
         cout<<"Duração: "<<duracao<<"s"<<endl;
         return sol;
@@ -126,7 +128,6 @@ vector<int> Grafo::adaptativo(float alpha, int numIter)
     clock_t inicio_adaptativo, fim_adaptativo;
     float duracao;
     inicio_adaptativo = clock();
-    srand(time(0));
     vector<int> solucao;
     vector<No> solBest, sol;
     int k, somaSol, somaSolbest;
@@ -159,16 +160,15 @@ vector<int> Grafo::adaptativo(float alpha, int numIter)
             }
             
             sol.push_back(*next(candidatos.begin(),k));
-            auto sol_it = sol.end()-1;
-            somaSol+=sol_it->getPeso();
+            somaSol+=sol.back().getPeso();
             candidatos.erase(next(candidatos.begin(),k));
 
             for (No &no : candidatos)
             {
 
-                if (no.buscaAresta(no.getId(), sol_it->getId()))
+                if (no.buscaAresta(no.getId(), sol.back().getId()))
                 {
-                    no.removeAresta(no.getId(),sol_it->getId());
+                    no.removeAresta(no.getId(),sol.back().getId());
                 }
             }
 
@@ -235,11 +235,13 @@ vector<int> Grafo::reativo(vector<float> vet_alpha, int numIter,int bloco)
 {   
     clock_t inicio_reativo, fim_reativo;
     float duracao;
+    
     inicio_reativo = clock();
     vector<int> solucao;
     vector<No> solBest, sol;
-    auto sol_it = sol.begin();
-    vector<float> probabilidade(vet_alpha.size(),float(1)/vet_alpha.size());
+    
+    // vector<float> probabilidade(vet_alpha.size(),float(1)/vet_alpha.size());
+    vector<float> probabilidade({0.1,0.1,0.4,0.2,0.2});
     
 
     random_device rd;
@@ -255,6 +257,7 @@ vector<int> Grafo::reativo(vector<float> vet_alpha, int numIter,int bloco)
 
     for (int i = 0; i < numIter; i++)
     {
+        
         candidatos = listaNos();
         sort(candidatos.begin(), candidatos.end(), [](No &p, No &q)
              { return p.getPeso() / p.getGrauNo() < q.getPeso() / q.getGrauNo(); });
@@ -274,23 +277,23 @@ vector<int> Grafo::reativo(vector<float> vet_alpha, int numIter,int bloco)
                 k = rand()%int(alpha*candidatos.size());
             }
 
-            if (candidatos[k].getGrauNo()==0)
+            if (candidatos.at(k).getGrauNo()==0)
             {
                 candidatos.erase(candidatos.begin()+k);
                 continue;
             }
             
             sol.push_back(candidatos[k]);
-            sol_it = sol.end()-1;
-            somaSol+=sol_it->getPeso();
+            // cout<<sol.back().getId()<<endl;
+            somaSol+=sol.back().getPeso();
             candidatos.erase(candidatos.begin() + k);
 
             for (No &no : candidatos)
             {
 
-                if (no.buscaAresta(no.getId(), sol_it->getId()))
+                if (no.buscaAresta(no.getId(), sol.back().getId()))
                 {
-                    no.removeAresta(no.getId(),sol_it->getId());
+                    no.removeAresta(no.getId(),sol.back().getId());
                 }
             }
 

@@ -10,7 +10,7 @@
           "request": "launch",
           "program": "${workspaceFolder}/execGrupoX.exe",
           "preLaunchTask": "build",
-          "args": ["instancias\\brock200_2.txt", "saida.txt", "0", "0", "1", "a", "0.05"],
+          "args": ["instancias\\brock400_2.txt", "saida.txt", "0", "0", "1", "r"],
           "stopAtEntry": false,
           "cwd": "${workspaceFolder}",
           "environment": [],
